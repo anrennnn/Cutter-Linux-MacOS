@@ -4,9 +4,9 @@
 #   makepkg -si
 
 pkgname=cutter-linux
-pkgver=0.2.0
+pkgver=0.3.0
 pkgrel=1
-_commit=8257b14b18e35c337d4984e22aa35be78463ef35
+_commit=bcbd77ed1098099c401a20b89499b27e5ba6974b
 pkgdesc="Herramienta Recortes (Super+Shift+S) e historial del portapapeles (Super+V) al estilo Windows"
 arch=('any')
 url="https://github.com/anrennnn/Cutter-Linux"
@@ -15,6 +15,7 @@ depends=(
     'python'
     'python-pyqt6'
     'qt6-base'
+    'qt6-svg'
     'libnotify'
     'xdg-utils'
     'xdg-user-dirs'
@@ -29,10 +30,11 @@ optdepends=(
     'xorg-xprop: modo «Recorte de ventana» (X11)'
     'xorg-xwininfo: modo «Recorte de ventana» (X11)'
     'grim: captura en Hyprland y Sway si el portal no responde'
+    'gnome-shell-extension-appindicator: icono junto al reloj en GNOME'
 )
 install=cutter-linux.install
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$_commit.tar.gz")
-sha256sums=('20a67498bdb682ded29e34eeff8a42f0509abf565f98e3a3cc5fc70236581b20')
+sha256sums=('fbbe349ef26abfeefa2dbb31fcfac585e9582ba282f3f04d7f3a1f773b53570d')
 
 package() {
     cd "Cutter-Linux-$_commit"

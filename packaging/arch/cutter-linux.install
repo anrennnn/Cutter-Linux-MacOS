@@ -1,4 +1,5 @@
 post_install() {
+    echo ">> En GNOME, el icono junto al reloj necesita gnome-shell-extension-appindicator."
     echo ">> Abre «Cutter» desde el menú una vez (o reinicia la sesión) para activar"
     echo ">> Super+Shift+S (recortar) y Super+V (historial del portapapeles)."
     echo ">> En Hyprland, Sway o niri, Cutter te dirá qué líneas añadir a tu configuración."
