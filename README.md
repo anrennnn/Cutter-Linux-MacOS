@@ -10,9 +10,17 @@ Pensado primero para Debian y sus derivadas: Ubuntu, Linux Mint, Pop!_OS, Zorin 
 
 ## Instalación
 
-Descarga el `.deb` desde *Releases* y ejecuta:
+Descarga el instalador [`instalador/cutter-linux_0.1.0_all.deb`](instalador/cutter-linux_0.1.0_all.deb)
+y ejecuta en la carpeta donde lo guardaste:
 
 ```bash
+sudo apt install ./cutter-linux_0.1.0_all.deb
+```
+
+O directamente desde la terminal:
+
+```bash
+wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux_0.1.0_all.deb
 sudo apt install ./cutter-linux_0.1.0_all.deb
 ```
 
