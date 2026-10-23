@@ -61,6 +61,9 @@ el mismo comportamiento.
 
 Los instaladores están en la carpeta [`instalador/`](instalador/).
 
+> **¿Ya tenías Cutter instalado?** Sigue los pasos de
+> [Actualizar desde una versión anterior](#actualizar-desde-una-versión-anterior).
+
 ### Debian, Ubuntu, Linux Mint, Pop!_OS, Zorin OS
 
 ```bash
@@ -135,6 +138,83 @@ en tu escritorio.
 - **GNOME:** Super+V abría las notificaciones; ahora se abren con Super+M.
 - **Hyprland, Sway o niri:** Cutter no toca tu archivo de configuración, pero te dice
   qué líneas añadir.
+
+## Actualizar desde una versión anterior
+
+No hace falta desinstalar nada: instala el paquete nuevo encima del anterior. Tu historial
+del portapapeles y tus ajustes se conservan. Abre una terminal y copia los comandos de tu
+sistema.
+
+### Debian, Ubuntu, Linux Mint, Pop!_OS, Zorin OS
+
+```bash
+cutter-linux salir
+wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux_0.3.0_all.deb
+sudo apt install ./cutter-linux_0.3.0_all.deb
+cutter-linux atajos
+cutter-linux
+```
+
+### Arch Linux, CachyOS, EndeavourOS, Manjaro
+
+```bash
+cutter-linux salir
+wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.3.0-1-any.pkg.tar.zst
+sudo pacman -U cutter-linux-0.3.0-1-any.pkg.tar.zst
+cutter-linux atajos
+cutter-linux
+```
+
+### Fedora
+
+```bash
+cutter-linux salir
+sudo dnf install https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.3.0-1.noarch.rpm
+cutter-linux atajos
+cutter-linux
+```
+
+### Bazzite, Silverblue y otros sistemas inmutables
+
+Con la instalación por usuario, repite los mismos pasos de instalación. El script
+detecta que Cutter ya está instalado y lo actualiza:
+
+```bash
+curl -L https://github.com/anrennnn/Cutter-Linux/archive/refs/heads/main.tar.gz | tar xz
+cd Cutter-Linux-main
+./instalar-usuario.sh
+cutter-linux atajos
+```
+
+Si lo instalaste con `rpm-ostree`, descarga el `.rpm` nuevo, ejecuta
+`rpm-ostree uninstall cutter-linux` y después `rpm-ostree install ./cutter-linux-<versión>.noarch.rpm`.
+Para terminar, reinicia.
+
+### Qué hace cada comando
+
+| Comando | Para qué sirve |
+|---|---|
+| `cutter-linux salir` | Cierra la versión anterior, que sigue abierta en segundo plano. Si no la cierras, seguirá funcionando la vieja hasta que reinicies. |
+| `apt` / `pacman` / `dnf` | Instala la versión nueva y descarga solas las dependencias nuevas, como el complemento de iconos SVG. |
+| `cutter-linux atajos` | Vuelve a registrar Super+Shift+S y Super+V. **En KDE Plasma es obligatorio al pasar a la 0.3**, porque cambió la forma de registrarlos. En los demás escritorios no hace daño. |
+| `cutter-linux` | Abre la ventana nueva y pone el icono junto al reloj. |
+
+### Comprobar que se actualizó
+
+- `cutter-linux version` debe mostrar `Cutter 0.3.0`.
+- Al abrir **Cutter** desde el menú tiene que aparecer la ventana con
+  **Nuevo · Modo · Aplazar · Cancelar · Opciones**.
+
+### Si algo no funciona
+
+- **KDE:** si Super+Shift+S sigue abriendo Spectacle, cierra sesión y vuelve a entrar.
+- **GNOME (Pop!_OS, Zorin, Fedora Workstation):** si no ves el icono junto al reloj,
+  activa la extensión **AppIndicator** en la app *Extensiones*.
+- **Si `cutter-linux` no se encuentra** tras la instalación por usuario, usa la ruta
+  completa: `~/.local/bin/cutter-linux`.
+- ¿Sigue fallando? Abre un aviso en
+  [Issues](https://github.com/anrennnn/Cutter-Linux/issues) indicando tu distribución,
+  tu escritorio y lo que ves.
 
 ## Funciones
 
