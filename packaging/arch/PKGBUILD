@@ -1,0 +1,41 @@
+# Maintainer: Cutter-Linux <cutter-linux@users.noreply.github.com>
+#
+# Cutter para Arch Linux, CachyOS, EndeavourOS y Manjaro.
+#   makepkg -si
+
+pkgname=cutter-linux
+pkgver=0.2.0
+pkgrel=1
+_commit=8257b14b18e35c337d4984e22aa35be78463ef35
+pkgdesc="Herramienta Recortes (Super+Shift+S) e historial del portapapeles (Super+V) al estilo Windows"
+arch=('any')
+url="https://github.com/anrennnn/Cutter-Linux"
+license=('MIT')
+depends=(
+    'python'
+    'python-pyqt6'
+    'qt6-base'
+    'libnotify'
+    'xdg-utils'
+    'xdg-user-dirs'
+    'hicolor-icon-theme'
+)
+makedepends=('make')
+optdepends=(
+    'qt6-wayland: ventanas nativas en sesiones Wayland (KDE Plasma, Hyprland, Sway)'
+    'xdg-desktop-portal: captura de pantalla en Wayland'
+    'wl-clipboard: historial del portapapeles en Wayland (KDE Plasma, Hyprland, Sway, niri)'
+    'xdotool: pegar automáticamente el elemento elegido con Super+V (X11)'
+    'xorg-xprop: modo «Recorte de ventana» (X11)'
+    'xorg-xwininfo: modo «Recorte de ventana» (X11)'
+    'grim: captura en Hyprland y Sway si el portal no responde'
+)
+install=cutter-linux.install
+source=("$pkgname-$pkgver.tar.gz::$url/archive/$_commit.tar.gz")
+sha256sums=('20a67498bdb682ded29e34eeff8a42f0509abf565f98e3a3cc5fc70236581b20')
+
+package() {
+    cd "Cutter-Linux-$_commit"
+    make install DESTDIR="$pkgdir" PREFIX=/usr \
+        DOCDIR=/usr/share/licenses/$pkgname LICENSE_NAME=LICENSE
+}

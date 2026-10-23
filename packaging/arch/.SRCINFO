@@ -1,0 +1,27 @@
+pkgbase = cutter-linux
+	pkgdesc = Herramienta Recortes (Super+Shift+S) e historial del portapapeles (Super+V) al estilo Windows
+	pkgver = 0.2.0
+	pkgrel = 1
+	url = https://github.com/anrennnn/Cutter-Linux
+	install = cutter-linux.install
+	arch = any
+	license = MIT
+	makedepends = make
+	depends = python
+	depends = python-pyqt6
+	depends = qt6-base
+	depends = libnotify
+	depends = xdg-utils
+	depends = xdg-user-dirs
+	depends = hicolor-icon-theme
+	optdepends = qt6-wayland: ventanas nativas en sesiones Wayland (KDE Plasma, Hyprland, Sway)
+	optdepends = xdg-desktop-portal: captura de pantalla en Wayland
+	optdepends = wl-clipboard: historial del portapapeles en Wayland (KDE Plasma, Hyprland, Sway, niri)
+	optdepends = xdotool: pegar automáticamente el elemento elegido con Super+V (X11)
+	optdepends = xorg-xprop: modo «Recorte de ventana» (X11)
+	optdepends = xorg-xwininfo: modo «Recorte de ventana» (X11)
+	optdepends = grim: captura en Hyprland y Sway si el portal no responde
+	source = cutter-linux-0.2.0.tar.gz::https://github.com/anrennnn/Cutter-Linux/archive/8257b14b18e35c337d4984e22aa35be78463ef35.tar.gz
+	sha256sums = 20a67498bdb682ded29e34eeff8a42f0509abf565f98e3a3cc5fc70236581b20
+
+pkgname = cutter-linux

@@ -9,8 +9,8 @@
 Pulsa <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> para recortar cualquier parte de la pantalla
 y <kbd>Super</kbd>+<kbd>V</kbd> para ver todo lo que has copiado.
 
-Hecho para Debian y derivadas: Ubuntu, Linux Mint, Pop!_OS y Zorin OS.<br />
-Funciona en KDE Plasma, GNOME, Cinnamon y XFCE, en X11 y Wayland.
+Paquetes para Debian y derivadas (Ubuntu, Linux Mint, Pop!_OS, Zorin OS) y para Arch Linux y derivadas (CachyOS, EndeavourOS, Manjaro).<br />
+Funciona en KDE Plasma, GNOME, Cinnamon, XFCE y Hyprland, en X11 y Wayland.
 
 </div>
 
@@ -20,7 +20,7 @@ Funciona en KDE Plasma, GNOME, Cinnamon y XFCE, en X11 y Wayland.
 
 Si vienes de Windows, seguro que usas a diario la Herramienta Recortes y el historial
 del portapapeles. Cutter lleva esa misma experiencia a Linux con los mismos atajos y
-el mismo comportamiento. Se instala con un solo paquete `.deb`.
+el mismo comportamiento. Se instala con un solo paquete `.deb` o con `pacman`.
 
 | Atajo | Qué hace |
 |---|---|
@@ -40,25 +40,46 @@ el mismo comportamiento. Se instala con un solo paquete `.deb`.
 
 ## Instalación
 
-Descarga el instalador [`instalador/cutter-linux_0.1.1_all.deb`](instalador/cutter-linux_0.1.1_all.deb)
-y ejecuta en la carpeta donde lo guardaste:
+### Debian, Ubuntu, Linux Mint, Pop!_OS, Zorin OS
 
 ```bash
-sudo apt install ./cutter-linux_0.1.1_all.deb
+wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux_0.2.0_all.deb
+sudo apt install ./cutter-linux_0.2.0_all.deb
 ```
-
-O directamente desde la terminal:
-
-```bash
-wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux_0.1.1_all.deb
-sudo apt install ./cutter-linux_0.1.1_all.deb
-```
-
-Después abre **Cutter** desde el menú de aplicaciones una vez, o cierra sesión y
-vuelve a entrar. La primera vez que se abre, Cutter configura los atajos Super+Shift+S
-y Super+V en tu escritorio.
 
 Para desinstalarlo: `sudo apt remove cutter-linux`.
+
+### Arch Linux, CachyOS, EndeavourOS, Manjaro
+
+Con el paquete ya generado:
+
+```bash
+wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.2.0-1-any.pkg.tar.zst
+sudo pacman -U cutter-linux-0.2.0-1-any.pkg.tar.zst
+```
+
+O compilándolo tú con el `PKGBUILD`, al estilo del AUR:
+
+```bash
+git clone https://github.com/anrennnn/Cutter-Linux.git
+cd Cutter-Linux/packaging/arch
+makepkg -si
+```
+
+Para desinstalarlo: `sudo pacman -R cutter-linux`.
+
+### Después de instalar
+
+Abre **Cutter** desde el menú de aplicaciones una vez, o cierra sesión y vuelve a
+entrar. La primera vez que se abre, Cutter configura Super+Shift+S y Super+V en tu
+escritorio.
+
+En **KDE Plasma** (el escritorio por defecto de CachyOS), Spectacle y Klipper ya usan
+esos atajos. Cutter le deja a Spectacle la tecla <kbd>Imprimir</kbd> y desactiva el
+Meta+V de Klipper.
+
+En **Hyprland, Sway o niri** los atajos van en tu archivo de configuración. Cutter
+no lo modifica, pero te muestra las líneas que tienes que añadir.
 
 ## Funciones (Fase 1)
 
@@ -84,11 +105,16 @@ Para desinstalarlo: `sudo apt remove cutter-linux`.
 | XFCE, X11 | ✅ automáticos | ✅ todos los modos | ✅ y pega solo |
 | GNOME / Pop!_OS / Zorin, X11 | ✅ automáticos (las notificaciones pasan a Super+M) | ✅ todos los modos | ✅ y pega solo |
 | GNOME, Wayland | ✅ automáticos | ✅ por el portal; sin modo ventana | ✅ vía XWayland (sin probar aún); copia pero no pega solo |
-| KDE Plasma, Wayland | ✅ al volver a iniciar sesión | ✅ por el portal; sin modo ventana | ✅ con `wl-clipboard`; copia pero no pega solo |
+| KDE Plasma 6, Wayland (CachyOS) | ✅ automáticos (libera Spectacle y Klipper) | ✅ por el portal; sin modo ventana | ✅ con `wl-clipboard`; copia pero no pega solo |
+| Hyprland / Sway / niri | ✍️ se añaden a mano (Cutter te dice qué líneas) | ✅ por el portal o `grim`; sin modo ventana | ✅ con `wl-clipboard`; copia pero no pega solo |
 
 En Wayland las aplicaciones no pueden ver la pantalla ni las demás ventanas. Por eso
 la captura se pide al portal del escritorio (la primera vez GNOME pregunta si das
 permiso) y el modo ventana solo está disponible en X11.
+
+En Arch y CachyOS conviene instalar también `wl-clipboard`, `xdg-desktop-portal` y
+`qt6-wayland` si usas Wayland:
+`sudo pacman -S --needed wl-clipboard xdg-desktop-portal qt6-wayland`.
 
 ## Comandos
 
@@ -110,9 +136,15 @@ cutter-linux salir         # detiene el proceso de fondo
 ## Desarrollo
 
 ```bash
+# Debian / Ubuntu / Mint
 sudo apt install python3-pyqt6 xdotool x11-utils wl-clipboard
+# Arch / CachyOS
+sudo pacman -S --needed python-pyqt6 xdotool xorg-xprop xorg-xwininfo wl-clipboard
+
 PYTHONPATH=src python3 -m cutter_linux recortar
-./build-deb.sh            # genera dist/cutter-linux_<versión>_all.deb
+./build-deb.sh                       # genera dist/cutter-linux_<versión>_all.deb
+cd packaging/arch && makepkg         # genera cutter-linux-<versión>-1-any.pkg.tar.zst
+sudo make install                    # instalación manual en /usr
 ```
 
 Licencia MIT. No contiene código de Microsoft: replica el comportamiento de la herramienta
