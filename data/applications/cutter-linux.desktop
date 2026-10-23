@@ -1,0 +1,16 @@
+[Desktop Entry]
+Type=Application
+Name=Cutter
+GenericName=Herramienta Recortes
+Comment=Recortes de pantalla (Super+Shift+S) e historial del portapapeles (Super+V)
+Exec=cutter-linux recortar
+Icon=cutter-linux
+Terminal=false
+Categories=Utility;Graphics;
+Keywords=recorte;captura;pantalla;screenshot;snip;portapapeles;clipboard;
+StartupNotify=false
+Actions=historial;
+
+[Desktop Action historial]
+Name=Historial del portapapeles
+Exec=cutter-linux historial

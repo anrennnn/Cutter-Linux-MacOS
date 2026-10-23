@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Cutter
+Comment=Vigila el portapapeles para el historial de Super+V
+Exec=cutter-linux segundo-plano
+Icon=cutter-linux
+NoDisplay=true
+X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-Delay=3

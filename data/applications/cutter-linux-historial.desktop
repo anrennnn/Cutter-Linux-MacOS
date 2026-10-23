@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Cutter: historial del portapapeles
+Exec=cutter-linux historial
+Icon=cutter-linux
+NoDisplay=true
+StartupNotify=false
+X-KDE-Shortcuts=Meta+V

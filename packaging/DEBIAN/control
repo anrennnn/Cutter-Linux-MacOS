@@ -1,0 +1,19 @@
+Package: cutter-linux
+Version: @VERSION@
+Section: graphics
+Priority: optional
+Architecture: all
+Depends: python3 (>= 3.10), python3-pyqt6, libnotify-bin, xdg-utils, xdg-user-dirs
+Recommends: xdotool, x11-utils, wl-clipboard, xdg-desktop-portal
+Installed-Size: @SIZE@
+Maintainer: Cutter-Linux <cutter-linux@users.noreply.github.com>
+Homepage: https://github.com/
+Description: Herramienta Recortes y portapapeles al estilo Windows
+ Super+Shift+S abre la selección de recorte (rectángulo, ventana, pantalla
+ completa o forma libre); el recorte se copia al portapapeles y se guarda en
+ Imágenes/Capturas de pantalla.
+ .
+ Super+V abre el historial del portapapeles con los textos e imágenes
+ copiados, con opciones para fijar, eliminar y borrar todo.
+ .
+ Funciona en KDE Plasma, GNOME, Cinnamon y XFCE, en X11 y Wayland.
