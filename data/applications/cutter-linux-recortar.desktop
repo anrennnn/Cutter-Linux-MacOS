@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Cutter: recortar pantalla
-Exec=cutter-linux recortar
-Icon=cutter-linux
-NoDisplay=true
-StartupNotify=false
-X-KDE-Shortcuts=Meta+Shift+S

@@ -10,7 +10,9 @@ Categories=Utility;Graphics;
 Keywords=recorte;captura;pantalla;screenshot;snip;portapapeles;clipboard;
 StartupNotify=false
 Actions=historial;
+X-KDE-Shortcuts=Meta+Shift+S
 
 [Desktop Action historial]
 Name=Historial del portapapeles
 Exec=cutter-linux historial
+X-KDE-Shortcuts=Meta+V

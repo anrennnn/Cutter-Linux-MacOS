@@ -1,0 +1,13 @@
+post_install() {
+    echo ">> Abre «Cutter» desde el menú una vez (o reinicia la sesión) para activar"
+    echo ">> Super+Shift+S (recortar) y Super+V (historial del portapapeles)."
+    echo ">> En Hyprland, Sway o niri, Cutter te dirá qué líneas añadir a tu configuración."
+}
+
+post_upgrade() {
+    echo ">> Reinicia Cutter para usar la nueva versión: cutter-linux salir && cutter-linux segundo-plano &"
+}
+
+pre_remove() {
+    rm -rf /usr/lib/cutter-linux/cutter_linux/__pycache__
+}

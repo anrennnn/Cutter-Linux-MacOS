@@ -5,7 +5,7 @@ from pathlib import Path
 
 APP_ID = "cutter-linux"
 APP_NAME = "Cutter"
-VERSION = "0.1.1"
+VERSION = "0.2.0"
 
 # Igual que Windows: el historial guarda como máximo 25 elementos (los fijados no cuentan).
 HISTORY_LIMIT = 25
@@ -53,7 +53,7 @@ def session_type() -> str:
 def desktop() -> str:
     """Escritorio normalizado: kde, gnome, cinnamon, xfce u otro."""
     raw = (os.environ.get("XDG_CURRENT_DESKTOP") or os.environ.get("DESKTOP_SESSION") or "").lower()
-    for name in ("kde", "cinnamon", "xfce", "gnome", "mate", "cosmic"):
+    for name in ("kde", "cinnamon", "xfce", "gnome", "mate", "cosmic", "hyprland", "sway", "niri", "wayfire"):
         if name in raw:
             return name
     # Pop!_OS, Zorin y Ubuntu usan variantes de GNOME ("pop:GNOME", "zorin:GNOME", "ubuntu:GNOME").
