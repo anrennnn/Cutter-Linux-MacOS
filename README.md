@@ -1,27 +1,57 @@
+<div align="center">
+
+<img src="data/icons/cutter-linux.svg" width="96" alt="Icono de Cutter" />
+
 # Cutter para Linux
 
-La Herramienta Recortes y el historial del portapapeles de Windows, para Linux.
-Pensado primero para Debian y sus derivadas: Ubuntu, Linux Mint, Pop!_OS, Zorin OS.
+**La Herramienta Recortes y el historial del portapapeles de Windows, para Linux.**
+
+Pulsa <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> para recortar cualquier parte de la pantalla
+y <kbd>Super</kbd>+<kbd>V</kbd> para ver todo lo que has copiado.
+
+Hecho para Debian y derivadas: Ubuntu, Linux Mint, Pop!_OS y Zorin OS.<br />
+Funciona en KDE Plasma, GNOME, Cinnamon y XFCE, en X11 y Wayland.
+
+</div>
+
+![Recorte rectangular con Super+Shift+S](docs/img/recorte-rectangular.png)
+
+## ¿Qué es Cutter?
+
+Si vienes de Windows, seguro que usas a diario la Herramienta Recortes y el historial
+del portapapeles. Cutter lleva esa misma experiencia a Linux con los mismos atajos y
+el mismo comportamiento. Se instala con un solo paquete `.deb`.
 
 | Atajo | Qué hace |
 |---|---|
 | **Super + Shift + S** | Congela la pantalla y te deja elegir qué recortar. El recorte se copia al portapapeles y se guarda en `Imágenes/Capturas de pantalla`. |
 | **Super + V** | Abre el historial del portapapeles con todo lo que copiaste, tanto textos como imágenes. Al elegir un elemento se pega en la app que estabas usando. |
 
+<table>
+<tr>
+<td width="50%"><img src="docs/img/historial-portapapeles.png" alt="Historial del portapapeles con Super+V" /></td>
+<td width="50%"><img src="docs/img/recorte-forma-libre.png" alt="Recorte de forma libre" /></td>
+</tr>
+<tr>
+<td align="center"><b>Super+V</b>: historial con textos e imágenes</td>
+<td align="center">Recorte de <b>forma libre</b></td>
+</tr>
+</table>
+
 ## Instalación
 
-Descarga el instalador [`instalador/cutter-linux_0.1.0_all.deb`](instalador/cutter-linux_0.1.0_all.deb)
+Descarga el instalador [`instalador/cutter-linux_0.1.1_all.deb`](instalador/cutter-linux_0.1.1_all.deb)
 y ejecuta en la carpeta donde lo guardaste:
 
 ```bash
-sudo apt install ./cutter-linux_0.1.0_all.deb
+sudo apt install ./cutter-linux_0.1.1_all.deb
 ```
 
 O directamente desde la terminal:
 
 ```bash
-wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux_0.1.0_all.deb
-sudo apt install ./cutter-linux_0.1.0_all.deb
+wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux_0.1.1_all.deb
+sudo apt install ./cutter-linux_0.1.1_all.deb
 ```
 
 Después abre **Cutter** desde el menú de aplicaciones una vez, o cierra sesión y

@@ -125,15 +125,25 @@ def notify(title: str, body: str, image_path: str = "", on_click=None):
     _live_processes.append(proc)
 
     def finished():
-        if bytes(proc.readAllStandardOutput()).decode().strip() == "default":
-            on_click()
+        clicked = bytes(proc.readAllStandardOutput()).decode().strip() == "default"
         _live_processes.remove(proc)
+        if clicked:
+            on_click()
 
     proc.finished.connect(finished)
     proc.start(cmd[0], cmd[1:])
 
 
 _live_processes = []
+
+
+def _stop_notifications():
+    """Al salir se cierran las notificaciones pendientes antes de que Qt destruya sus procesos."""
+    for proc in list(_live_processes):
+        proc.finished.disconnect()
+        proc.kill()
+        proc.waitForFinished(500)
+    _live_processes.clear()
 
 
 def _prepare_platform():
@@ -188,6 +198,7 @@ def main(argv=None):
     app.setApplicationDisplayName(config.APP_NAME)
     app.setDesktopFileName(config.APP_ID)
     app.setQuitOnLastWindowClosed(False)
+    app.aboutToQuit.connect(_stop_notifications)
 
     if command and send_to_daemon(command):
         return 0

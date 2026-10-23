@@ -3,8 +3,10 @@
 import shutil
 import subprocess
 
-from PyQt6.QtCore import QSize, Qt, QTimer
-from PyQt6.QtGui import QCursor, QGuiApplication, QImageReader, QKeySequence, QPixmap, QShortcut
+from PyQt6.QtCore import QRectF, QSize, Qt, QTimer
+from PyQt6.QtGui import (
+    QCursor, QGuiApplication, QImageReader, QKeySequence, QPainterPath, QPixmap, QRegion, QShortcut,
+)
 from PyQt6.QtWidgets import (
     QAbstractItemView, QFrame, QHBoxLayout, QLabel, QListWidget, QListWidgetItem,
     QMenu, QPushButton, QToolButton, QVBoxLayout, QWidget,
@@ -58,14 +60,14 @@ class CardWidget(QWidget):
             label = QLabel("\n".join(line[:200] for line in lines))
             label.setWordWrap(True)
             label.setTextFormat(Qt.TextFormat.PlainText)
-            label.setMaximumHeight(80)
             layout.addWidget(label, 1)
         else:
             label = QLabel()
             reader = QImageReader(str(item.image_path()))
             size = reader.size()
-            if size.isValid() and size.height() > THUMB_HEIGHT:
-                reader.setScaledSize(size.scaled(QSize(WIDTH - 90, THUMB_HEIGHT), Qt.AspectRatioMode.KeepAspectRatio))
+            box = QSize(WIDTH - 110, THUMB_HEIGHT)
+            if size.isValid() and (size.height() > box.height() or size.width() > box.width()):
+                reader.setScaledSize(size.scaled(box, Qt.AspectRatioMode.KeepAspectRatio))
             label.setPixmap(QPixmap.fromImage(reader.read()))
             layout.addWidget(label, 1, Qt.AlignmentFlag.AlignLeft)
 
@@ -106,7 +108,11 @@ class HistoryPopup(QWidget):
             | Qt.WindowType.WindowStaysOnTopHint
             | Qt.WindowType.Tool
         )
-        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        # Las esquinas redondeadas necesitan transparencia, que en X11 sin compositor
+        # se ve negra; ahí se recorta la ventana con una máscara.
+        self.use_mask = QGuiApplication.platformName() == "xcb"
+        if not self.use_mask:
+            self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.resize(WIDTH, HEIGHT)
 
         outer = QVBoxLayout(self)
@@ -154,13 +160,22 @@ class HistoryPopup(QWidget):
             row = QListWidgetItem(self.list)
             row.setData(Qt.ItemDataRole.UserRole, clip.id)
             card = CardWidget(self, clip)
-            row.setSizeHint(QSize(WIDTH - 40, card.sizeHint().height()))
+            card_width = WIDTH - 52  # ancho del panel menos márgenes y barra de desplazamiento
+            height = card.layout().totalHeightForWidth(card_width) if card.layout().hasHeightForWidth() else -1
+            row.setSizeHint(QSize(card_width, max(height, card.sizeHint().height())))
             self.list.setItemWidget(row, card)
         has_items = bool(self.store.items)
         self.list.setVisible(has_items)
         self.empty.setVisible(not has_items)
         if has_items:
             self.list.setCurrentRow(min(max(selected, 0), self.list.count() - 1))
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        if self.use_mask:
+            path = QPainterPath()
+            path.addRoundedRect(QRectF(self.rect()), 10, 10)
+            self.setMask(QRegion(path.toFillPolygon().toPolygon()))
 
     def toggle(self):
         if self.isVisible():

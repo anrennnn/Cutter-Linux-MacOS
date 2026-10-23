@@ -5,7 +5,7 @@ from pathlib import Path
 
 APP_ID = "cutter-linux"
 APP_NAME = "Cutter"
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 
 # Igual que Windows: el historial guarda como máximo 25 elementos (los fijados no cuentan).
 HISTORY_LIMIT = 25
