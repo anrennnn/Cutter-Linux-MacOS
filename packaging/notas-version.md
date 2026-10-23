@@ -10,4 +10,4 @@
 
 ¿Qué Mac tengo? Menú  → Acerca de este Mac: «Chip Apple M…» es Apple Silicon; «Procesador Intel…» es Intel.
 
-Instrucciones completas en el [README](https://github.com/anrennnn/Cutter-Linux#readme).
+Instrucciones completas en el [README](https://github.com/anrennnn/Cutter-Linux-MacOS#readme).

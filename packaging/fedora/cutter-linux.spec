@@ -7,11 +7,11 @@
 
 Name:           cutter-linux
 Version:        0.4.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Herramienta Recortes (Super+Shift+S) e historial del portapapeles (Super+V)
 License:        MIT
-URL:            https://github.com/anrennnn/Cutter-Linux
-Source0:        %{url}/archive/%{commit}/Cutter-Linux-%{commit}.tar.gz
+URL:            https://github.com/anrennnn/Cutter-Linux-MacOS
+Source0:        %{url}/archive/%{commit}/Cutter-Linux-MacOS-%{commit}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  make
@@ -39,7 +39,7 @@ copiados. Desde el menú o el icono junto al reloj se abre la ventana clásica
 (Nuevo, Modo, Aplazar, Cancelar, Opciones) con un editor de anotaciones.
 
 %prep
-%autosetup -n Cutter-Linux-%{commit}
+%autosetup -n Cutter-Linux-MacOS-%{commit}
 
 %build
 # Nada que compilar: es Python.
@@ -57,6 +57,9 @@ copiados. Desde el menú o el icono junto al reloj se abre la ventana clásica
 %config(noreplace) %{_sysconfdir}/xdg/autostart/cutter-linux.desktop
 
 %changelog
+* Fri Oct 23 2026 Cutter-Linux <cutter-linux@users.noreply.github.com> - 0.4.0-2
+- El repositorio pasa a llamarse Cutter-Linux-MacOS.
+
 * Fri Oct 23 2026 Cutter-Linux <cutter-linux@users.noreply.github.com> - 0.4.0-1
 - Código común con la versión de macOS; sin cambios de comportamiento en Linux.
 

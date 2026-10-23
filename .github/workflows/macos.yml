@@ -90,3 +90,9 @@ jobs:
           shopt -s nullglob
           FILES=(dmg/*.dmg instalador/*"$VERSION"*)
           gh release upload "$TAG" "${FILES[@]}" --clobber
+          # Quita paquetes de Linux antiguos que ya no están en instalador/.
+          for asset in $(gh release view "$TAG" --json assets --jq '.assets[].name'); do
+            case "$asset" in
+              cutter-linux*) [ -e "instalador/$asset" ] || gh release delete-asset "$TAG" "$asset" --yes ;;
+            esac
+          done

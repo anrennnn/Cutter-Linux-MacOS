@@ -8,7 +8,7 @@ Recommends: xdotool, x11-utils, wl-clipboard, xdg-desktop-portal, qt6-wayland
 Suggests: gnome-shell-extension-appindicator
 Installed-Size: @SIZE@
 Maintainer: Cutter-Linux <cutter-linux@users.noreply.github.com>
-Homepage: https://github.com/anrennnn/Cutter-Linux
+Homepage: https://github.com/anrennnn/Cutter-Linux-MacOS
 Description: Herramienta Recortes y portapapeles al estilo Windows
  Super+Shift+S abre la selección de recorte (rectángulo, ventana, pantalla
  completa o forma libre); el recorte se copia al portapapeles y se guarda en

@@ -5,11 +5,11 @@
 
 pkgname=cutter-linux
 pkgver=0.4.0
-pkgrel=1
+pkgrel=2
 _commit=38101b0324fea7a200b0f2cf4353e09b911b8a85
 pkgdesc="Herramienta Recortes (Super+Shift+S) e historial del portapapeles (Super+V) al estilo Windows"
 arch=('any')
-url="https://github.com/anrennnn/Cutter-Linux"
+url="https://github.com/anrennnn/Cutter-Linux-MacOS"
 license=('MIT')
 depends=(
     'python'
@@ -34,10 +34,10 @@ optdepends=(
 )
 install=cutter-linux.install
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$_commit.tar.gz")
-sha256sums=('df04974ab7ff6b71323b075f863ec5d6cd9841f44eab1c80729c0cccbd370918')
+sha256sums=('430ff85fe7b803989f7256335285a5b2d9ed555f5dcb3eb5517defd74e77b722')
 
 package() {
-    cd "Cutter-Linux-$_commit"
+    cd "Cutter-Linux-MacOS-$_commit"
     make install DESTDIR="$pkgdir" PREFIX=/usr \
         DOCDIR=/usr/share/licenses/$pkgname LICENSE_NAME=LICENSE
 }

@@ -68,7 +68,7 @@ Los instaladores están en la carpeta [`instalador/`](instalador/).
 ### Debian, Ubuntu, Linux Mint, Pop!_OS, Zorin OS
 
 ```bash
-wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux_0.4.0_all.deb
+wget https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux_0.4.0_all.deb
 sudo apt install ./cutter-linux_0.4.0_all.deb
 ```
 
@@ -77,19 +77,19 @@ Para desinstalarlo: `sudo apt remove cutter-linux`.
 ### Arch Linux, CachyOS, EndeavourOS, Manjaro
 
 ```bash
-wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.4.0-1-any.pkg.tar.zst
-sudo pacman -U cutter-linux-0.4.0-1-any.pkg.tar.zst
+wget https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux-0.4.0-2-any.pkg.tar.zst
+sudo pacman -U cutter-linux-0.4.0-2-any.pkg.tar.zst
 ```
 
 También puedes compilarlo tú, como los paquetes del AUR:
-`git clone https://github.com/anrennnn/Cutter-Linux.git && cd Cutter-Linux/packaging/arch && makepkg -si`.
+`git clone https://github.com/anrennnn/Cutter-Linux-MacOS.git && cd Cutter-Linux-MacOS/packaging/arch && makepkg -si`.
 
 Para desinstalarlo: `sudo pacman -R cutter-linux`.
 
 ### Fedora (Workstation, KDE Plasma y los spins Cinnamon, XFCE…)
 
 ```bash
-sudo dnf install https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.4.0-1.noarch.rpm
+sudo dnf install https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux-0.4.0-2.noarch.rpm
 ```
 
 `dnf` instala también PyQt6 y lo demás que haga falta. En **Fedora Workstation (GNOME)**,
@@ -107,8 +107,8 @@ En estos sistemas `/usr` es de solo lectura, así que hay dos caminos:
 Usa el PyQt6 del sistema si existe; si no, lo descarga en `~/.local/share/cutter-linux`.
 
 ```bash
-curl -L https://github.com/anrennnn/Cutter-Linux/archive/refs/heads/main.tar.gz | tar xz
-cd Cutter-Linux-main
+curl -L https://github.com/anrennnn/Cutter-Linux-MacOS/archive/refs/heads/main.tar.gz | tar xz
+cd Cutter-Linux-MacOS-main
 ./instalar-usuario.sh
 ```
 
@@ -117,8 +117,8 @@ Para actualizar, repite los mismos pasos. Para quitarlo: `./instalar-usuario.sh 
 **Opción B: añadir el paquete al sistema con `rpm-ostree` (queda integrado, pero hay que reiniciar).**
 
 ```bash
-curl -LO https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.4.0-1.noarch.rpm
-rpm-ostree install ./cutter-linux-0.4.0-1.noarch.rpm
+curl -LO https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux-0.4.0-2.noarch.rpm
+rpm-ostree install ./cutter-linux-0.4.0-2.noarch.rpm
 systemctl reboot
 ```
 
@@ -128,8 +128,8 @@ Si eliges la opción A en Bazzite y el instalador dice que falta `xcb-util-curso
 ### macOS (Apple Silicon e Intel)
 
 1. Descarga el `.dmg` de tu Mac:
-   - **Apple Silicon (M1–M4):** [Cutter-0.4.0-macOS-AppleSilicon.dmg](https://github.com/anrennnn/Cutter-Linux/releases/latest/download/Cutter-0.4.0-macOS-AppleSilicon.dmg)
-   - **Intel:** [Cutter-0.4.0-macOS-Intel.dmg](https://github.com/anrennnn/Cutter-Linux/releases/latest/download/Cutter-0.4.0-macOS-Intel.dmg)
+   - **Apple Silicon (M1–M4):** [Cutter-0.4.0-macOS-AppleSilicon.dmg](https://github.com/anrennnn/Cutter-Linux-MacOS/releases/latest/download/Cutter-0.4.0-macOS-AppleSilicon.dmg)
+   - **Intel:** [Cutter-0.4.0-macOS-Intel.dmg](https://github.com/anrennnn/Cutter-Linux-MacOS/releases/latest/download/Cutter-0.4.0-macOS-Intel.dmg)
 
    ¿No sabes cuál es el tuyo? Ve a menú  → *Acerca de este Mac*. Si pone «Chip Apple M…»,
    es Apple Silicon; si pone «Procesador Intel…», es Intel.
@@ -180,7 +180,7 @@ sistema.
 
 ```bash
 cutter-linux salir
-wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux_0.4.0_all.deb
+wget https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux_0.4.0_all.deb
 sudo apt install ./cutter-linux_0.4.0_all.deb
 cutter-linux atajos
 cutter-linux
@@ -190,8 +190,8 @@ cutter-linux
 
 ```bash
 cutter-linux salir
-wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.4.0-1-any.pkg.tar.zst
-sudo pacman -U cutter-linux-0.4.0-1-any.pkg.tar.zst
+wget https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux-0.4.0-2-any.pkg.tar.zst
+sudo pacman -U cutter-linux-0.4.0-2-any.pkg.tar.zst
 cutter-linux atajos
 cutter-linux
 ```
@@ -200,7 +200,7 @@ cutter-linux
 
 ```bash
 cutter-linux salir
-sudo dnf install https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.4.0-1.noarch.rpm
+sudo dnf install https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux-0.4.0-2.noarch.rpm
 cutter-linux atajos
 cutter-linux
 ```
@@ -211,8 +211,8 @@ Con la instalación por usuario, repite los mismos pasos de instalación. El scr
 detecta que Cutter ya está instalado y lo actualiza:
 
 ```bash
-curl -L https://github.com/anrennnn/Cutter-Linux/archive/refs/heads/main.tar.gz | tar xz
-cd Cutter-Linux-main
+curl -L https://github.com/anrennnn/Cutter-Linux-MacOS/archive/refs/heads/main.tar.gz | tar xz
+cd Cutter-Linux-MacOS-main
 ./instalar-usuario.sh
 cutter-linux atajos
 ```
@@ -252,7 +252,7 @@ Para terminar, reinicia.
 - **Si `cutter-linux` no se encuentra** tras la instalación por usuario, usa la ruta
   completa: `~/.local/bin/cutter-linux`.
 - ¿Sigue fallando? Abre un aviso en
-  [Issues](https://github.com/anrennnn/Cutter-Linux/issues) indicando tu distribución,
+  [Issues](https://github.com/anrennnn/Cutter-Linux-MacOS/issues) indicando tu distribución,
   tu escritorio y lo que ves.
 
 ## Funciones

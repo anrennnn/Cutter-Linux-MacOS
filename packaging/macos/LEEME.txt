@@ -21,4 +21,4 @@ Atajos:
 Al abrir Cutter aparece la ventana clásica (Nuevo, Modo, Aplazar, Cancelar,
 Opciones) y un icono de tijeras en la barra de menús.
 
-Más información: https://github.com/anrennnn/Cutter-Linux
+Más información: https://github.com/anrennnn/Cutter-Linux-MacOS
