@@ -3,10 +3,10 @@
 #
 #   rpmbuild -ba cutter-linux.spec
 
-%global commit bcbd77ed1098099c401a20b89499b27e5ba6974b
+%global commit 38101b0324fea7a200b0f2cf4353e09b911b8a85
 
 Name:           cutter-linux
-Version:        0.3.0
+Version:        0.4.0
 Release:        1%{?dist}
 Summary:        Herramienta Recortes (Super+Shift+S) e historial del portapapeles (Super+V)
 License:        MIT
@@ -57,6 +57,9 @@ copiados. Desde el menú o el icono junto al reloj se abre la ventana clásica
 %config(noreplace) %{_sysconfdir}/xdg/autostart/cutter-linux.desktop
 
 %changelog
+* Fri Oct 23 2026 Cutter-Linux <cutter-linux@users.noreply.github.com> - 0.4.0-1
+- Código común con la versión de macOS; sin cambios de comportamiento en Linux.
+
 * Fri Oct 23 2026 Cutter-Linux <cutter-linux@users.noreply.github.com> - 0.3.0-1
 - Ventana principal clásica, editor de anotaciones, icono junto al reloj y opciones.
 - Primer paquete para Fedora.

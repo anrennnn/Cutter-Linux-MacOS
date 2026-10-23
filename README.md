@@ -2,16 +2,17 @@
 
 <img src="data/icons/cutter-linux.svg" width="96" alt="Icono de Cutter" />
 
-# Cutter para Linux
+# Cutter para Linux y macOS
 
-**La Herramienta Recortes y el historial del portapapeles de Windows, para Linux.**
+**La Herramienta Recortes y el historial del portapapeles de Windows, para Linux y Mac.**
 
 Pulsa <kbd>Super</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> para recortar cualquier parte de la pantalla
 y <kbd>Super</kbd>+<kbd>V</kbd> para ver todo lo que has copiado. También puedes abrir la ventana
 clásica desde el menú o desde el icono junto al reloj.
 
-Paquetes para **Debian/Ubuntu/Mint**, **Arch/CachyOS** y **Fedora**, más un instalador sin root
-para sistemas inmutables (**Bazzite**, Silverblue, SteamOS).<br />
+Paquetes para **Debian/Ubuntu/Mint**, **Arch/CachyOS**, **Fedora** y **macOS** (Apple Silicon e Intel),
+más un instalador sin root para sistemas inmutables (**Bazzite**, Silverblue, SteamOS).<br />
+En Mac los atajos son <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> y <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd>.<br />
 Funciona en KDE Plasma, GNOME, Cinnamon, XFCE y Hyprland, en X11 y Wayland.
 
 </div>
@@ -21,14 +22,14 @@ Funciona en KDE Plasma, GNOME, Cinnamon, XFCE y Hyprland, en X11 y Wayland.
 ## ¿Qué es Cutter?
 
 Si vienes de Windows, seguro que usas a diario la Herramienta Recortes y el historial
-del portapapeles. Cutter lleva esa misma experiencia a Linux, con los mismos atajos y
-el mismo comportamiento.
+del portapapeles. Cutter lleva esa misma experiencia a Linux y a Mac, con los mismos
+atajos y el mismo comportamiento.
 
 | Cómo | Qué hace |
 |---|---|
-| **Super + Shift + S** | Congela la pantalla y te deja elegir qué recortar. El recorte se copia al portapapeles y se guarda en `Imágenes/Capturas de pantalla`. |
-| **Super + V** | Abre el historial del portapapeles con todo lo que copiaste, tanto textos como imágenes. Al elegir un elemento se pega en la app que estabas usando. |
-| **Icono de Cutter** (menú, barra de tareas o junto al reloj) | Abre la ventana clásica con **Nuevo · Modo · Aplazar · Cancelar · Opciones**. El recorte se abre en un editor para anotarlo. |
+| **Super + Shift + S** (Mac: **Ctrl + Shift + S**) | Congela la pantalla y te deja elegir qué recortar. El recorte se copia al portapapeles y se guarda en `Imágenes/Capturas de pantalla`. |
+| **Super + V** (Mac: **Ctrl + Shift + V**) | Abre el historial del portapapeles con todo lo que copiaste, tanto textos como imágenes. Al elegir un elemento se pega en la app que estabas usando. |
+| **Icono de Cutter** (menú, barra de tareas, junto al reloj o barra de menús del Mac) | Abre la ventana clásica con **Nuevo · Modo · Aplazar · Cancelar · Opciones**. El recorte se abre en un editor para anotarlo. |
 
 <table>
 <tr>
@@ -67,8 +68,8 @@ Los instaladores están en la carpeta [`instalador/`](instalador/).
 ### Debian, Ubuntu, Linux Mint, Pop!_OS, Zorin OS
 
 ```bash
-wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux_0.3.0_all.deb
-sudo apt install ./cutter-linux_0.3.0_all.deb
+wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux_0.4.0_all.deb
+sudo apt install ./cutter-linux_0.4.0_all.deb
 ```
 
 Para desinstalarlo: `sudo apt remove cutter-linux`.
@@ -76,8 +77,8 @@ Para desinstalarlo: `sudo apt remove cutter-linux`.
 ### Arch Linux, CachyOS, EndeavourOS, Manjaro
 
 ```bash
-wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.3.0-1-any.pkg.tar.zst
-sudo pacman -U cutter-linux-0.3.0-1-any.pkg.tar.zst
+wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.4.0-1-any.pkg.tar.zst
+sudo pacman -U cutter-linux-0.4.0-1-any.pkg.tar.zst
 ```
 
 También puedes compilarlo tú, como los paquetes del AUR:
@@ -88,7 +89,7 @@ Para desinstalarlo: `sudo pacman -R cutter-linux`.
 ### Fedora (Workstation, KDE Plasma y los spins Cinnamon, XFCE…)
 
 ```bash
-sudo dnf install https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.3.0-1.noarch.rpm
+sudo dnf install https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.4.0-1.noarch.rpm
 ```
 
 `dnf` instala también PyQt6 y lo demás que haga falta. En **Fedora Workstation (GNOME)**,
@@ -116,15 +117,45 @@ Para actualizar, repite los mismos pasos. Para quitarlo: `./instalar-usuario.sh 
 **Opción B: añadir el paquete al sistema con `rpm-ostree` (queda integrado, pero hay que reiniciar).**
 
 ```bash
-curl -LO https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.3.0-1.noarch.rpm
-rpm-ostree install ./cutter-linux-0.3.0-1.noarch.rpm
+curl -LO https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.4.0-1.noarch.rpm
+rpm-ostree install ./cutter-linux-0.4.0-1.noarch.rpm
 systemctl reboot
 ```
 
 Si eliges la opción A en Bazzite y el instalador dice que falta `xcb-util-cursor` o
 `wl-clipboard`, añádelos con `rpm-ostree install xcb-util-cursor wl-clipboard` y reinicia.
 
-### Después de instalar
+### macOS (Apple Silicon e Intel)
+
+1. Descarga el `.dmg` de tu Mac:
+   - **Apple Silicon (M1–M4):** [Cutter-0.4.0-macOS-AppleSilicon.dmg](https://github.com/anrennnn/Cutter-Linux/releases/latest/download/Cutter-0.4.0-macOS-AppleSilicon.dmg)
+   - **Intel:** [Cutter-0.4.0-macOS-Intel.dmg](https://github.com/anrennnn/Cutter-Linux/releases/latest/download/Cutter-0.4.0-macOS-Intel.dmg)
+
+   ¿No sabes cuál es el tuyo? Ve a menú  → *Acerca de este Mac*. Si pone «Chip Apple M…»,
+   es Apple Silicon; si pone «Procesador Intel…», es Intel.
+2. Abre el `.dmg` y arrastra **Cutter** a **Aplicaciones**.
+3. Abre Cutter. Como no está firmado con una cuenta de Apple Developer, macOS lo
+   bloqueará la primera vez:
+   - Ve a *Ajustes del Sistema → Privacidad y seguridad*.
+   - Abajo verás «Se ha bloqueado "Cutter"». Pulsa **Abrir igualmente**.
+   - También puedes desbloquearlo desde la Terminal:
+     `xattr -dr com.apple.quarantine /Applications/Cutter.app`
+4. Concede los permisos que pide macOS:
+   - **Grabación de pantalla**, para recortar. Después de activarlo, sal de Cutter
+     (icono de tijeras de la barra de menús → *Salir*) y vuelve a abrirlo.
+   - **Accesibilidad**, solo para que el historial pegue automáticamente. Sin este
+     permiso, lo que elijas en el historial queda copiado y lo pegas tú con Cmd+V.
+
+En Mac los atajos son **Ctrl+Shift+S** (recortar) y **Ctrl+Shift+V** (historial), porque
+Cmd+Shift+S es «Guardar como» y Cmd+V es pegar. Cutter vive en la barra de menús, junto
+al reloj, y solo aparece en el Dock mientras tiene una ventana abierta. Para que arranque
+al iniciar sesión, activa la opción correspondiente en *Opciones*.
+
+Para desinstalarlo: sal de Cutter, arrastra *Cutter* de Aplicaciones a la Papelera y,
+si quieres, borra `~/Library/Application Support/Cutter` y
+`~/Library/LaunchAgents/app.cutter.Cutter.plist`.
+
+### Después de instalar (Linux)
 
 Abre **Cutter** desde el menú de aplicaciones. Aparecerá la ventana clásica y, junto
 al reloj, el icono de Cutter. La primera vez, Cutter configura Super+Shift+S y Super+V
@@ -149,8 +180,8 @@ sistema.
 
 ```bash
 cutter-linux salir
-wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux_0.3.0_all.deb
-sudo apt install ./cutter-linux_0.3.0_all.deb
+wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux_0.4.0_all.deb
+sudo apt install ./cutter-linux_0.4.0_all.deb
 cutter-linux atajos
 cutter-linux
 ```
@@ -159,8 +190,8 @@ cutter-linux
 
 ```bash
 cutter-linux salir
-wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.3.0-1-any.pkg.tar.zst
-sudo pacman -U cutter-linux-0.3.0-1-any.pkg.tar.zst
+wget https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.4.0-1-any.pkg.tar.zst
+sudo pacman -U cutter-linux-0.4.0-1-any.pkg.tar.zst
 cutter-linux atajos
 cutter-linux
 ```
@@ -169,7 +200,7 @@ cutter-linux
 
 ```bash
 cutter-linux salir
-sudo dnf install https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.3.0-1.noarch.rpm
+sudo dnf install https://github.com/anrennnn/Cutter-Linux/raw/main/instalador/cutter-linux-0.4.0-1.noarch.rpm
 cutter-linux atajos
 cutter-linux
 ```
@@ -190,6 +221,14 @@ Si lo instalaste con `rpm-ostree`, descarga el `.rpm` nuevo, ejecuta
 `rpm-ostree uninstall cutter-linux` y después `rpm-ostree install ./cutter-linux-<versión>.noarch.rpm`.
 Para terminar, reinicia.
 
+### macOS
+
+1. Sal de Cutter: icono de tijeras de la barra de menús → *Salir*.
+2. Descarga el `.dmg` nuevo (enlaces en la sección de instalación de macOS) y arrastra
+   **Cutter** a **Aplicaciones**. Cuando te pregunte, elige **Reemplazar**.
+3. Vuelve a abrir Cutter. Si macOS vuelve a bloquearlo o a pedir permisos, repite los
+   pasos 3 y 4 de la instalación: cada versión sin firmar cuenta como una app nueva.
+
 ### Qué hace cada comando
 
 | Comando | Para qué sirve |
@@ -201,7 +240,7 @@ Para terminar, reinicia.
 
 ### Comprobar que se actualizó
 
-- `cutter-linux version` debe mostrar `Cutter 0.3.0`.
+- `cutter-linux version` debe mostrar `Cutter 0.4.0`.
 - Al abrir **Cutter** desde el menú tiene que aparecer la ventana con
   **Nuevo · Modo · Aplazar · Cancelar · Opciones**.
 
@@ -267,6 +306,7 @@ Para terminar, reinicia.
 | GNOME / Pop!_OS / Zorin, X11 | ✅ automáticos (las notificaciones pasan a Super+M) | ✅ todos los modos | ✅ y pega solo |
 | GNOME, Wayland (Fedora Workstation, Ubuntu) | ✅ automáticos | ✅ por el portal; sin modo ventana | ✅ vía XWayland (sin probar aún); copia pero no pega solo |
 | KDE Plasma 6, Wayland (CachyOS, Fedora KDE, Bazzite) | ✅ automáticos (libera Spectacle y Klipper) | ✅ por el portal; sin modo ventana | ✅ con `wl-clipboard`; copia pero no pega solo |
+| macOS 12 o posterior (Apple Silicon e Intel) | ✅ Ctrl+Shift+S y Ctrl+Shift+V, registrados por la app | ✅ todos los modos, incluido ventana (pide «Grabación de pantalla») | ✅ y pega solo (pide «Accesibilidad») |
 | Hyprland / Sway / niri | ✍️ se añaden a mano (Cutter te dice qué líneas) | ✅ por el portal o `grim`; sin modo ventana | ✅ con `wl-clipboard`; copia pero no pega solo |
 
 En Wayland las aplicaciones no pueden ver la pantalla ni las demás ventanas. Por eso
@@ -305,8 +345,14 @@ PYTHONPATH=src python3 -m cutter_linux
 ./build-deb.sh                                    # dist/cutter-linux_<versión>_all.deb
 cd packaging/arch && makepkg                      # cutter-linux-<versión>-1-any.pkg.tar.zst
 rpmbuild -ba packaging/fedora/cutter-linux.spec   # cutter-linux-<versión>-1.noarch.rpm
+
+# macOS (en un Mac; GitHub Actions lo hace en cada cambio con .github/workflows/macos.yml)
+python3 -m pip install -r packaging/macos/requirements.txt
+python3 packaging/macos/autoprueba.py             # pruebas automáticas
+packaging/macos/build.sh AppleSilicon             # dist/Cutter.app y dist/Cutter-<versión>-macOS-AppleSilicon.dmg
 sudo make install                                 # instalación manual en /usr
 ```
 
-Licencia MIT. No contiene código de Microsoft: replica el comportamiento de la herramienta
+Licencia MIT. La versión de macOS incluye un subconjunto de iconos
+[Breeze](https://invent.kde.org/frameworks/breeze-icons) (LGPL-3.0). No contiene código de Microsoft: replica el comportamiento de la herramienta
 de Windows a partir de su funcionamiento público.

@@ -4,9 +4,9 @@
 #   makepkg -si
 
 pkgname=cutter-linux
-pkgver=0.3.0
+pkgver=0.4.0
 pkgrel=1
-_commit=bcbd77ed1098099c401a20b89499b27e5ba6974b
+_commit=38101b0324fea7a200b0f2cf4353e09b911b8a85
 pkgdesc="Herramienta Recortes (Super+Shift+S) e historial del portapapeles (Super+V) al estilo Windows"
 arch=('any')
 url="https://github.com/anrennnn/Cutter-Linux"
@@ -34,7 +34,7 @@ optdepends=(
 )
 install=cutter-linux.install
 source=("$pkgname-$pkgver.tar.gz::$url/archive/$_commit.tar.gz")
-sha256sums=('fbbe349ef26abfeefa2dbb31fcfac585e9582ba282f3f04d7f3a1f773b53570d')
+sha256sums=('df04974ab7ff6b71323b075f863ec5d6cd9841f44eab1c80729c0cccbd370918')
 
 package() {
     cd "Cutter-Linux-$_commit"
