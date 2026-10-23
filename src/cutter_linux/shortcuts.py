@@ -204,6 +204,8 @@ MANUAL = {
 
 def setup_shortcuts(force: bool = False) -> list[str]:
     """Configura los atajos una sola vez. Devuelve mensajes para mostrar al usuario."""
+    if config.IS_MAC:
+        return []  # en macOS los atajos los registra la propia app
     if config.SHORTCUTS_MARKER.exists() and not force:
         return []
     desktop = config.desktop()

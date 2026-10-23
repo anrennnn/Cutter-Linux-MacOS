@@ -57,6 +57,62 @@ class Daemon:
         if not self.server.listen(SOCKET_NAME):
             print("No se pudo abrir el socket de control:", self.server.errorString(), file=sys.stderr)
         self.update_tray()
+        if config.IS_MAC:
+            self._setup_mac()
+
+    def _setup_mac(self):
+        """Atajos globales, Dock y reapertura desde el Finder."""
+        from . import macos
+
+        self.hotkeys = macos.HotKeys()
+        self.hotkeys.pressed.connect(self._on_hotkey)
+        failed = [
+            keys for hid, code, keys in ((1, macos.KEY_S, config.SNIP_KEYS), (2, macos.KEY_V, config.HISTORY_KEYS))
+            if not self.hotkeys.register(hid, code, macos.CONTROL | macos.SHIFT)
+        ]
+        if failed:
+            notify(config.APP_NAME, "Otra app ya usa " + " y ".join(failed) + ".")
+        macos.set_autostart(settings_mod.current.autostart)
+        # En el Dock solo mientras haya una ventana de Cutter abierta.
+        self._dock_visible = None
+        self._dock_timer = QTimer()
+        self._dock_timer.setInterval(700)
+        self._dock_timer.timeout.connect(self._sync_dock)
+        self._dock_timer.start()
+        self._sync_dock()
+        # Abrir Cutter.app otra vez (Finder, Launchpad, Dock) no lanza otro proceso:
+        # solo activa este. Si no hay nada abierto, se muestra la ventana principal.
+        self._last_internal_activation = 0.0
+        self.app.applicationStateChanged.connect(self._on_app_state)
+
+    def _on_hotkey(self, hotkey_id: int):
+        import time
+
+        self._last_internal_activation = time.monotonic()
+        if hotkey_id == 1:
+            self.snip(settings_mod.current.default_mode)
+        elif hotkey_id == 2:
+            self.popup.toggle()
+
+    def _sync_dock(self):
+        from . import macos
+
+        visible = any(w is not None and w.isVisible() for w in (self.main_window, self.editor))
+        if visible != self._dock_visible:
+            self._dock_visible = visible
+            macos.set_dock_visible(visible)
+
+    def _on_app_state(self, state):
+        import time
+
+        from PyQt6.QtCore import Qt
+
+        if state != Qt.ApplicationState.ApplicationActive:
+            return
+        if time.monotonic() - self._last_internal_activation < 2 or self.session is not None:
+            return
+        if not any(w.isVisible() for w in QApplication.topLevelWidgets()):
+            self.show_main_window()
 
     def _on_connection(self):
         while self.server.hasPendingConnections():
@@ -129,8 +185,18 @@ class Daemon:
         from .editor import icon
         from .main_window import DELAYS, delay_label, mode_menu
 
-        self.tray = QSystemTrayIcon(icon(config.APP_ID, "edit-cut"), self.app)
-        self.tray.setToolTip(f"{config.APP_NAME}: Super+Shift+S recortar · Super+V historial")
+        if config.IS_MAC:
+            # Icono de plantilla: macOS lo pinta en negro o blanco según la barra de menús.
+            from PyQt6.QtGui import QIcon
+
+            from .macos import resource_dir
+
+            tray_icon = QIcon(str(resource_dir() / "cutter-menubar.svg"))
+            tray_icon.setIsMask(True)
+        else:
+            tray_icon = icon(config.APP_ID, "edit-cut")
+        self.tray = QSystemTrayIcon(tray_icon, self.app)
+        self.tray.setToolTip(f"{config.APP_NAME}: {config.SNIP_KEYS} recortar · {config.HISTORY_KEYS} historial")
         menu = QMenu()
         menu.addAction(icon("edit-cut"), "Nuevo recorte", lambda: self.snip(settings_mod.current.default_mode))
         modes = mode_menu(menu, lambda m: self.snip(m))
@@ -149,12 +215,16 @@ class Daemon:
         self.tray.setContextMenu(menu)
         self._tray_menu = menu
         self.tray.activated.connect(self._tray_activated)
+        self.tray.messageClicked.connect(_on_message_clicked)
         self.tray.show()
+        global _tray
+        _tray = self.tray
 
     def _tray_activated(self, reason):
         from PyQt6.QtWidgets import QSystemTrayIcon
 
-        if reason == QSystemTrayIcon.ActivationReason.Trigger:
+        # En macOS el clic ya abre el menú; abrir también la ventana sería molesto.
+        if reason == QSystemTrayIcon.ActivationReason.Trigger and not config.IS_MAC:
             self.show_main_window()
         elif reason == QSystemTrayIcon.ActivationReason.MiddleClick:
             self.snip(settings_mod.current.default_mode)
@@ -228,6 +298,16 @@ class Daemon:
 
 def notify(title: str, body: str, image_path: str = "", on_click=None):
     """Notificación del escritorio; al pulsarla se ejecuta on_click (si el escritorio lo admite)."""
+    if config.IS_MAC:
+        global _message_click
+        if _tray is not None:
+            _message_click = on_click
+            _tray.showMessage(title, body, _tray.icon(), 6000)
+        else:
+            from . import macos
+
+            macos.notify(title, body)
+        return
     if not shutil.which("notify-send"):
         print(f"{title}: {body}")
         return
@@ -254,6 +334,13 @@ def notify(title: str, body: str, image_path: str = "", on_click=None):
 
 
 _live_processes = []
+_tray = None  # icono de la barra de menús (macOS); muestra las notificaciones
+_message_click = None
+
+
+def _on_message_clicked():
+    if _message_click is not None:
+        _message_click()
 
 
 def _stop_notifications():
@@ -277,6 +364,13 @@ def _ensure_icon_theme():
     from PyQt6.QtGui import QIcon
 
     dark = QApplication.palette().window().color().lightness() < 128
+    if config.IS_MAC:
+        # macOS no tiene temas de iconos: Cutter trae un subconjunto de Breeze.
+        from .macos import resource_dir
+
+        QIcon.setThemeSearchPaths([str(resource_dir() / "icons")])
+        QIcon.setThemeName("breeze-dark" if dark else "breeze")
+        return
     candidates = ["breeze-dark", "Papirus-Dark"] if dark else ["breeze", "Papirus"]
     candidates += ["Adwaita", "Yaru", "elementary", "Mint-Y"]
     installed = [
@@ -307,21 +401,25 @@ def _prepare_platform():
 def main(argv=None):
     parser = argparse.ArgumentParser(
         prog="cutter-linux",
-        description="Recortes de pantalla (Super+Shift+S) e historial del portapapeles (Super+V).",
+        description=f"Recortes de pantalla ({config.SNIP_KEYS}) e historial del portapapeles ({config.HISTORY_KEYS}).",
     )
     sub = parser.add_subparsers(dest="command")
-    snip = sub.add_parser("recortar", help="Abrir la selección de recorte (Super+Shift+S)")
+    snip = sub.add_parser("recortar", help=f"Abrir la selección de recorte ({config.SNIP_KEYS})")
     snip.add_argument(
         "--modo", choices=["rect", "window", "full", "free"], default="rect",
         help="rect=rectangular, window=ventana, full=pantalla completa, free=forma libre",
     )
-    sub.add_parser("historial", help="Mostrar el historial del portapapeles (Super+V)")
+    sub.add_parser("historial", help=f"Mostrar el historial del portapapeles ({config.HISTORY_KEYS})")
     sub.add_parser("abrir", help="Abrir la ventana de Cutter (es lo que hace sin argumentos)")
     sub.add_parser("opciones", help="Abrir la ventana de opciones")
     sub.add_parser("segundo-plano", help="Iniciar solo el proceso de fondo (se usa al iniciar sesión)")
-    sub.add_parser("atajos", help="Volver a configurar Super+Shift+S y Super+V en el escritorio")
+    sub.add_parser("atajos", help=f"Volver a configurar {config.SNIP_KEYS} y {config.HISTORY_KEYS} en el escritorio")
     sub.add_parser("salir", help="Detener el proceso de fondo")
     sub.add_parser("version", help="Mostrar la versión")
+    if argv is None:
+        argv = sys.argv[1:]
+    # El Finder de macOS antiguos añade «-psn_…» al abrir la app.
+    argv = [a for a in argv if not a.startswith("-psn_")]
     args = parser.parse_args(argv)
 
     if args.command == "version":

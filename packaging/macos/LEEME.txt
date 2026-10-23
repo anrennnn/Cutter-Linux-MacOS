@@ -1,0 +1,24 @@
+CUTTER PARA MAC
+===============
+
+1. Arrastra «Cutter» a la carpeta «Aplicaciones».
+
+2. Ábrelo desde Aplicaciones. Como Cutter no está firmado con una cuenta de
+   Apple Developer, macOS lo bloqueará la primera vez:
+   - Ve a Ajustes del Sistema → Privacidad y seguridad.
+   - Abajo verás «Se ha bloqueado "Cutter"…»: pulsa «Abrir igualmente».
+   (Alternativa en Terminal: xattr -dr com.apple.quarantine /Applications/Cutter.app)
+
+3. Permisos que pedirá macOS:
+   - Grabación de pantalla: para recortar. Después de activarlo, cierra Cutter
+     (icono de la barra de menús → Salir) y vuelve a abrirlo.
+   - Accesibilidad: solo para que el historial pegue automáticamente.
+
+Atajos:
+   Ctrl+Shift+S  →  recortar (rectángulo, ventana, pantalla completa o forma libre)
+   Ctrl+Shift+V  →  historial del portapapeles
+
+Al abrir Cutter aparece la ventana clásica (Nuevo, Modo, Aplazar, Cancelar,
+Opciones) y un icono de tijeras en la barra de menús.
+
+Más información: https://github.com/anrennnn/Cutter-Linux

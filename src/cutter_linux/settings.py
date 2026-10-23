@@ -60,6 +60,11 @@ def _apply_autostart(enabled: bool):
     """
     from pathlib import Path
 
+    if config.IS_MAC:
+        from . import macos
+
+        macos.set_autostart(enabled)
+        return
     user_entry = config.CONFIG_DIR.parent / "autostart" / "cutter-linux.desktop"
     system_entry = Path("/etc/xdg/autostart/cutter-linux.desktop")
     hidden = user_entry.exists() and "Hidden=true" in user_entry.read_text(encoding="utf-8", errors="ignore")

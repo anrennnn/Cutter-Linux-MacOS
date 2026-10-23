@@ -27,11 +27,39 @@ class CaptureError(RuntimeError):
 def capture_screens() -> list[tuple]:
     """Devuelve [(QScreen, QPixmap)] con la imagen de cada monitor, sin recortar."""
     screens = QGuiApplication.screens()
+    if config.IS_MAC:
+        return _capture_mac(screens)
     if config.session_type() == "x11" and QGuiApplication.platformName() == "xcb":
         return [(s, s.grabWindow(0)) for s in screens]
 
     full = _capture_wayland()
     return _split_by_screen(full, screens)
+
+
+def _capture_mac(screens) -> list[tuple]:
+    from . import macos
+
+    try:
+        macos.ensure_screen_permission()
+    except macos.PermissionError_ as exc:
+        raise CaptureError(str(exc)) from exc
+    images = [i for i in macos.capture_displays(len(screens)) if not i.isNull()]
+    if not images:
+        raise CaptureError("No se pudo capturar la pantalla con screencapture.")
+    # screencapture y Qt ponen la pantalla principal primero; por si acaso se
+    # empareja cada imagen con la pantalla del mismo tamaño en píxeles.
+    result = []
+    for screen in screens:
+        geo = screen.geometry()
+        want = (round(geo.width() * screen.devicePixelRatio()), round(geo.height() * screen.devicePixelRatio()))
+        match = next((i for i in images if (i.width(), i.height()) == want), images[0])
+        images.remove(match)
+        pix = QPixmap.fromImage(match)
+        pix.setDevicePixelRatio(match.width() / max(1, geo.width()))
+        result.append((screen, pix))
+        if not images:
+            break
+    return result
 
 
 def _split_by_screen(full: QImage, screens) -> list[tuple]:

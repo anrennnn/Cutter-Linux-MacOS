@@ -180,6 +180,8 @@ class ClipboardWatcher(QObject):
         self.wl_watchers: list[QProcess] = []
         if config.session_type() == "wayland" and QGuiApplication.platformName() != "xcb":
             self._start_wl_paste()
+        if config.IS_MAC:
+            self._start_mac_polling()
 
     def _on_changed(self, mode):
         if mode == QClipboard.Mode.Clipboard:
@@ -190,6 +192,25 @@ class ClipboardWatcher(QObject):
         if mime is None:
             return
         self.ingest(mime)
+
+    def _start_mac_polling(self):
+        """macOS no avisa de los cambios del portapapeles: se mira su contador cada medio segundo."""
+        from . import macos
+
+        self._mac_count = macos.pasteboard_change_count()
+        self._mac_timer = QTimer(self)
+        self._mac_timer.setInterval(500)
+        self._mac_timer.timeout.connect(self._poll_mac)
+        self._mac_timer.start()
+
+    def _poll_mac(self):
+        from . import macos
+
+        count = macos.pasteboard_change_count()
+        if count != self._mac_count:
+            self._mac_count = count
+            if not macos.pasteboard_is_secret():
+                self._pending.start()
 
     def ingest(self, mime: QMimeData):
         if not settings_mod.current.history_enabled:

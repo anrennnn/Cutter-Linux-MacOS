@@ -22,7 +22,7 @@ DELAYS = [0, 1, 2, 3, 4, 5]
 def mode_menu(parent, on_pick, checked: str | None = None) -> QMenu:
     menu = QMenu("Modo", parent)
     group = QActionGroup(menu)
-    window_ok = config.session_type() == "x11"
+    window_ok = config.session_type() in ("x11", "macos")
     for key, label, icons in MODE_LABELS:
         action = menu.addAction(icon(*icons), label, lambda k=key: on_pick(k))
         if key == "window" and not window_ok:
@@ -119,7 +119,7 @@ class MainWindow(QMainWindow):
         row.addWidget(info, 0, Qt.AlignmentFlag.AlignTop)
         layout.addLayout(row)
         tips = QLabel(
-            "Atajos: <b>Super+Shift+S</b> recortar · <b>Super+V</b> "
+            f"Atajos: <b>{config.SNIP_KEYS}</b> recortar · <b>{config.HISTORY_KEYS}</b> "
             "<a href='historial'>historial del portapapeles</a>"
         )
         tips.setTextFormat(Qt.TextFormat.RichText)
@@ -137,7 +137,7 @@ class MainWindow(QMainWindow):
     # --- estado -------------------------------------------------------------
 
     def _set_mode(self, mode: str):
-        if mode == "window" and config.session_type() != "x11":
+        if mode == "window" and config.session_type() not in ("x11", "macos"):
             mode = "rect"
         self.mode = mode
         _key, label, icons = next(m for m in MODE_LABELS if m[0] == mode)

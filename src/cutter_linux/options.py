@@ -24,7 +24,7 @@ class OptionsDialog(QDialog):
         self.copy = QCheckBox("Copiar siempre los recortes al portapapeles")
         self.copy.setChecked(s.copy_to_clipboard)
         v.addWidget(self.copy)
-        self.autosave = QCheckBox("Guardar automáticamente los recortes de Super+Shift+S en:")
+        self.autosave = QCheckBox(f"Guardar automáticamente los recortes de {config.SNIP_KEYS} en:")
         self.autosave.setChecked(s.autosave)
         v.addWidget(self.autosave)
         row = QHBoxLayout()
@@ -41,12 +41,12 @@ class OptionsDialog(QDialog):
         self.notify = QCheckBox("Mostrar una notificación después de recortar")
         self.notify.setChecked(s.notify)
         v.addWidget(self.notify)
-        self.editor = QCheckBox("Abrir el editor después de recortar con Super+Shift+S")
+        self.editor = QCheckBox(f"Abrir el editor después de recortar con {config.SNIP_KEYS}")
         self.editor.setChecked(s.open_editor_after_shortcut)
         v.addWidget(self.editor)
         layout.addWidget(snips)
 
-        hist = QGroupBox("Historial del portapapeles (Super+V)")
+        hist = QGroupBox(f"Historial del portapapeles ({config.HISTORY_KEYS})")
         v = QVBoxLayout(hist)
         self.history = QCheckBox("Guardar en el historial lo que copio")
         self.history.setChecked(s.history_enabled)
@@ -66,7 +66,10 @@ class OptionsDialog(QDialog):
 
         app = QGroupBox("Aplicación")
         v = QVBoxLayout(app)
-        self.tray = QCheckBox("Mostrar el icono de Cutter junto al reloj")
+        self.tray = QCheckBox(
+            "Mostrar el icono de Cutter en la barra de menús" if config.IS_MAC
+            else "Mostrar el icono de Cutter junto al reloj"
+        )
         self.tray.setChecked(s.tray_icon)
         v.addWidget(self.tray)
         if config.desktop() == "gnome":
@@ -74,13 +77,23 @@ class OptionsDialog(QDialog):
             hint.setWordWrap(True)
             hint.setStyleSheet("color: palette(placeholder-text);")
             v.addWidget(hint)
-        self.autostart = QCheckBox("Iniciar Cutter al iniciar sesión (necesario para Super+V)")
+        self.autostart = QCheckBox(f"Iniciar Cutter al iniciar sesión (necesario para {config.HISTORY_KEYS})")
         self.autostart.setChecked(s.autostart)
         v.addWidget(self.autostart)
-        keys = QPushButton(icon("preferences-desktop-keyboard-shortcuts", "input-keyboard"),
-                           "Volver a configurar Super+Shift+S y Super+V")
-        keys.clicked.connect(self._shortcuts)
-        v.addWidget(keys)
+        if config.IS_MAC:
+            # En Mac los atajos los registra Cutter; lo que hace falta son permisos.
+            for label, pane in (
+                ("Permiso de grabación de pantalla (para recortar)…", "Privacy_ScreenCapture"),
+                ("Permiso de accesibilidad (para pegar desde el historial)…", "Privacy_Accessibility"),
+            ):
+                button = QPushButton(icon("configure"), label)
+                button.clicked.connect(lambda _c=False, p=pane: _open_mac_settings(p))
+                v.addWidget(button)
+        else:
+            keys = QPushButton(icon("preferences-desktop-keyboard-shortcuts", "input-keyboard"),
+                               f"Volver a configurar {config.SNIP_KEYS} y {config.HISTORY_KEYS}")
+            keys.clicked.connect(self._shortcuts)
+            v.addWidget(keys)
         layout.addWidget(app)
 
         buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
@@ -116,3 +129,9 @@ class OptionsDialog(QDialog):
         s.autostart = self.autostart.isChecked()
         s.save()
         super().accept()
+
+
+def _open_mac_settings(pane: str):
+    import subprocess
+
+    subprocess.Popen(["/usr/bin/open", f"x-apple.systempreferences:com.apple.preference.security?{pane}"])

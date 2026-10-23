@@ -189,6 +189,10 @@ class HistoryPopup(QWidget):
         x = min(max(pos.x() - WIDTH // 2, area.left() + 8), area.right() - WIDTH - 8)
         y = min(max(pos.y() + 12, area.top() + 8), area.bottom() - HEIGHT - 8)
         self.move(x, y)
+        if config.IS_MAC:
+            from . import macos
+
+            macos.activate()
         self.show()
         self.raise_()
         self.activateWindow()
@@ -207,6 +211,16 @@ class HistoryPopup(QWidget):
         # Se copia mientras la ventana aún tiene el foco (requisito de Wayland).
         QGuiApplication.clipboard().setMimeData(self.store.mime_for(clip))
         self.hide()
+        if config.IS_MAC:
+            from PyQt6.QtWidgets import QApplication
+
+            from . import macos
+
+            # Se devuelve el foco a la app de antes para que Cmd+V llegue a ella.
+            if not any(w.isVisible() for w in QApplication.topLevelWidgets() if w is not self):
+                macos.hide_app()
+            QTimer.singleShot(250, _paste_into_focused_app)
+            return
         QTimer.singleShot(180, _paste_into_focused_app)
 
     def changeEvent(self, event):
@@ -218,5 +232,10 @@ class HistoryPopup(QWidget):
 
 def _paste_into_focused_app():
     """Pega en la app que tenía el foco. En Wayland no hay forma estándar; queda copiado."""
+    if config.IS_MAC:
+        from . import macos
+
+        macos.paste()
+        return
     if config.session_type() == "x11" and shutil.which("xdotool"):
         subprocess.Popen(["xdotool", "key", "--clearmodifiers", "ctrl+v"])

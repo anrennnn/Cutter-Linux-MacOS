@@ -1,0 +1,11 @@
+[Icon Theme]
+Name=breeze
+Comment=Subconjunto de Breeze (LGPL-3.0) para Cutter en macOS
+Directories=actions
+
+[actions]
+Size=22
+MinSize=16
+MaxSize=48
+Type=Scalable
+Context=Actions

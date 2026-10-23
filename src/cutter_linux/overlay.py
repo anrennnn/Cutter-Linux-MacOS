@@ -12,7 +12,7 @@ from PyQt6.QtGui import (
 from PyQt6.QtWidgets import QButtonGroup, QFrame, QHBoxLayout, QToolButton, QWidget
 
 from . import config
-from .windows import list_windows
+from .windows import list_windows as list_x11_windows
 
 MODES = [
     ("rect", "Recorte rectangular", "selection-rectangular", "▭"),
@@ -104,6 +104,7 @@ class SnipOverlay(QWidget):
             | Qt.WindowType.Tool
             | Qt.WindowType.BypassWindowManagerHint
             if config.session_type() == "x11"
+            # En macOS una ventana «Tool» se oculta al perder el foco, así que no se usa.
             else Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint
         )
         self.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
@@ -122,7 +123,15 @@ class SnipOverlay(QWidget):
 
     def show_on_screen(self):
         self.setScreen(self.screen_)
-        self.showFullScreen()
+        if config.IS_MAC:
+            # showFullScreen abriría un escritorio (Space) nuevo con animación.
+            self.setGeometry(self.screen_.geometry())
+            self.show()
+            from . import macos
+
+            macos.raise_overlay(self)
+        else:
+            self.showFullScreen()
         self.raise_()
         self.activateWindow()
 
@@ -241,14 +250,22 @@ class SnipOverlay(QWidget):
         p.end()
 
 
+def _list_windows():
+    if config.IS_MAC:
+        from . import macos
+
+        return macos.list_windows()
+    return list_x11_windows()
+
+
 class SnipSession:
     """Coordina las capas de todos los monitores durante un recorte."""
 
     def __init__(self, shots, on_done, mode: str = "rect"):
         self.on_done = on_done
-        self.window_mode_available = config.session_type() == "x11"
+        self.window_mode_available = config.session_type() in ("x11", "macos")
         self.mode = mode if (mode != "window" or self.window_mode_available) else "rect"
-        self.windows = list_windows() if self.window_mode_available else []
+        self.windows = _list_windows() if self.window_mode_available else []
         self.done = False
 
         cursor_screen = QGuiApplication.screenAt(QCursor.pos()) or QGuiApplication.primaryScreen()
@@ -264,6 +281,10 @@ class SnipSession:
             first.bar.move((first.width() - first.bar.width()) // 2, 12)
 
     def start(self):
+        if config.IS_MAC:
+            from . import macos
+
+            macos.activate()
         for overlay in self.overlays:
             overlay.show_on_screen()
         for overlay in self.overlays:
