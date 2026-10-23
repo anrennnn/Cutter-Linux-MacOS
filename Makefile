@@ -19,7 +19,7 @@ APPS = data/applications/cutter-linux.desktop
 
 install:
 	install -d "$(DESTDIR)$(LIBDIR)/cutter_linux"
-	install -m 644 src/cutter_linux/*.py "$(DESTDIR)$(LIBDIR)/cutter_linux/"
+	install -m 644 src/cutter_linux/*.py src/cutter_linux/*.svg "$(DESTDIR)$(LIBDIR)/cutter_linux/"
 	install -d "$(DESTDIR)$(PREFIX)/bin"
 	printf '%s\n' '#!/bin/sh' \
 	    'export PYTHONPATH="$(LIBDIR)$${PYTHONPATH:+:$$PYTHONPATH}"' \

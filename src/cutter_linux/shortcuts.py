@@ -11,8 +11,8 @@ import subprocess
 
 from . import config
 
-SNIP_CMD = "cutter-linux recortar"
-HISTORY_CMD = "cutter-linux historial"
+SNIP_CMD = f"{config.cli_command()} recortar"
+HISTORY_CMD = f"{config.cli_command()} historial"
 
 
 def _run(*cmd) -> str:
@@ -120,7 +120,9 @@ KDE_CHANGES = [
     # Klipper muestra su menú con Meta+V (en Plasma 6 vive dentro de plasmashell).
     ("plasmashell", "show-on-mouse-pos", []),
     ("klipper", "show-on-mouse-pos", []),
-    ("cutter-linux.desktop", "_launch", [_META | _SHIFT | _KEY_S]),
+    # La 0.2 ponía Meta+Shift+S en el lanzador principal, que ahora abre la ventana.
+    ("cutter-linux.desktop", "_launch", []),
+    ("cutter-linux.desktop", "recortar", [_META | _SHIFT | _KEY_S]),
     ("cutter-linux.desktop", "historial", [_META | _KEY_V]),
 ]
 
@@ -163,7 +165,8 @@ def _setup_kde() -> list[str]:
 
     write(["services", "org.kde.spectacle.desktop"], "_launch", "Print", "Print\tMeta+Shift+S", "Spectacle")
     write(["plasmashell"], "show-on-mouse-pos", "none", "Meta+V", "Show Clipboard Items at Mouse Position")
-    write(["services", "cutter-linux.desktop"], "_launch", "Meta+Shift+S", "Meta+Shift+S", "Cutter")
+    write(["services", "cutter-linux.desktop"], "_launch", "none", "none", "Cutter")
+    write(["services", "cutter-linux.desktop"], "recortar", "Meta+Shift+S", "Meta+Shift+S", "Nuevo recorte")
     write(["services", "cutter-linux.desktop"], "historial", "Meta+V", "Meta+V", "Historial del portapapeles")
     return ["Cierra sesión y vuelve a entrar para activar los atajos en KDE Plasma."]
 
@@ -193,7 +196,8 @@ MANUAL = {
     ),
     "niri": (
         "~/.config/niri/config.kdl (dentro de binds { })",
-        ['Mod+Shift+S { spawn "cutter-linux" "recortar"; }', 'Mod+V { spawn "cutter-linux" "historial"; }'],
+        [f'Mod+Shift+S {{ spawn "{config.cli_command()}" "recortar"; }}',
+         f'Mod+V {{ spawn "{config.cli_command()}" "historial"; }}'],
     ),
 }
 

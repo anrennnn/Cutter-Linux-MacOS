@@ -17,6 +17,7 @@ from PyQt6.QtCore import QBuffer, QByteArray, QIODevice, QMimeData, QObject, QPr
 from PyQt6.QtGui import QClipboard, QGuiApplication, QImage
 
 from . import config
+from . import settings as settings_mod
 
 
 @dataclass
@@ -121,7 +122,7 @@ class HistoryStore(QObject):
     def _insert(self, item: ClipItem):
         self.items.insert(0, item)
         unpinned = [i for i in self.items if not i.pinned]
-        for old in unpinned[config.HISTORY_LIMIT:]:
+        for old in unpinned[settings_mod.current.history_limit:]:
             self._drop(old)
         self._save()
         self.changed.emit()
@@ -191,6 +192,8 @@ class ClipboardWatcher(QObject):
         self.ingest(mime)
 
     def ingest(self, mime: QMimeData):
+        if not settings_mod.current.history_enabled:
+            return
         # Las contraseñas copiadas desde gestores (KeePassXC, etc.) no se guardan.
         if mime.hasFormat("x-kde-passwordManagerHint"):
             return
@@ -216,6 +219,8 @@ class ClipboardWatcher(QObject):
 
     def _on_wl_event(self, proc: QProcess):
         proc.readAllStandardOutput()
+        if not settings_mod.current.history_enabled:
+            return
         types = self._wl_read(["--list-types"]).decode("utf-8", "replace").split()
         if "x-kde-passwordManagerHint" in types:
             return

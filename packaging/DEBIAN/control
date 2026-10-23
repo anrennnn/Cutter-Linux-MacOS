@@ -3,8 +3,9 @@ Version: @VERSION@
 Section: graphics
 Priority: optional
 Architecture: all
-Depends: python3 (>= 3.10), python3-pyqt6, libnotify-bin, xdg-utils, xdg-user-dirs
-Recommends: xdotool, x11-utils, wl-clipboard, xdg-desktop-portal
+Depends: python3 (>= 3.10), python3-pyqt6, libqt6svg6, libnotify-bin, xdg-utils, xdg-user-dirs
+Recommends: xdotool, x11-utils, wl-clipboard, xdg-desktop-portal, qt6-wayland
+Suggests: gnome-shell-extension-appindicator
 Installed-Size: @SIZE@
 Maintainer: Cutter-Linux <cutter-linux@users.noreply.github.com>
 Homepage: https://github.com/anrennnn/Cutter-Linux
@@ -15,5 +16,9 @@ Description: Herramienta Recortes y portapapeles al estilo Windows
  .
  Super+V abre el historial del portapapeles con los textos e imágenes
  copiados, con opciones para fijar, eliminar y borrar todo.
+ .
+ Desde el menú de aplicaciones o el icono junto al reloj se abre la ventana
+ clásica (Nuevo, Modo, Aplazar, Cancelar, Opciones) y un editor con pluma,
+ resaltador y borrador.
  .
  Funciona en KDE Plasma, GNOME, Cinnamon y XFCE, en X11 y Wayland.

@@ -3,16 +3,26 @@ Type=Application
 Name=Cutter
 GenericName=Herramienta Recortes
 Comment=Recortes de pantalla (Super+Shift+S) e historial del portapapeles (Super+V)
-Exec=cutter-linux recortar
+Exec=cutter-linux abrir
 Icon=cutter-linux
 Terminal=false
 Categories=Utility;Graphics;
-Keywords=recorte;captura;pantalla;screenshot;snip;portapapeles;clipboard;
-StartupNotify=false
-Actions=historial;
+Keywords=recorte;recortes;captura;pantalla;screenshot;snip;snipping;portapapeles;clipboard;
+StartupNotify=true
+StartupWMClass=cutter-linux
+SingleMainWindow=true
+Actions=recortar;historial;opciones;
+
+[Desktop Action recortar]
+Name=Nuevo recorte
+Exec=cutter-linux recortar
 X-KDE-Shortcuts=Meta+Shift+S
 
 [Desktop Action historial]
 Name=Historial del portapapeles
 Exec=cutter-linux historial
 X-KDE-Shortcuts=Meta+V
+
+[Desktop Action opciones]
+Name=Opciones
+Exec=cutter-linux opciones

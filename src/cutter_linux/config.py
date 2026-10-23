@@ -5,7 +5,7 @@ from pathlib import Path
 
 APP_ID = "cutter-linux"
 APP_NAME = "Cutter"
-VERSION = "0.2.0"
+VERSION = "0.3.0"
 
 # Igual que Windows: el historial guarda como máximo 25 elementos (los fijados no cuentan).
 HISTORY_LIMIT = 25
@@ -41,6 +41,21 @@ def screenshots_dir() -> Path:
         if not pictures.exists() and (Path.home() / "Pictures").exists():
             pictures = Path.home() / "Pictures"
     return pictures / "Capturas de pantalla"
+
+
+def cli_command() -> str:
+    """Ruta del comando para atajos y autoarranque.
+
+    Con los paquetes basta «cutter-linux»; en la instalación por usuario
+    (~/.local/bin) se usa la ruta completa, porque los atajos del escritorio
+    no siempre tienen ~/.local/bin en el PATH.
+    """
+    import shutil
+
+    found = shutil.which("cutter-linux")
+    if found and not found.startswith(("/usr/bin/", "/bin/")):
+        return found
+    return "cutter-linux"
 
 
 def session_type() -> str:
