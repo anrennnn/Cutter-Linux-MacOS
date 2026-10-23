@@ -1,0 +1,92 @@
+name: macOS
+
+# Compila Cutter.app en Macs de GitHub (Apple Silicon e Intel), lo prueba,
+# genera los .dmg y los publica en Releases junto a los paquetes de Linux.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "data/icons/**"
+      - "packaging/**"
+      - "instalador/**"
+      - ".github/workflows/macos.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Cutter.app (${{ matrix.label }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            label: AppleSilicon
+          - runner: macos-15-intel
+            label: Intel
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: python -m pip install -r packaging/macos/requirements.txt
+
+      - name: Pruebas automáticas
+        run: python packaging/macos/autoprueba.py
+
+      - name: Construir Cutter.app y el .dmg
+        run: packaging/macos/build.sh ${{ matrix.label }}
+
+      - name: Probar la app empaquetada
+        run: |
+          set -e
+          APP=dist/Cutter.app/Contents/MacOS/Cutter
+          "$APP" version
+          lipo -archs "$APP"
+          "$APP" segundo-plano > arranque.log 2>&1 &
+          sleep 8
+          "$APP" salir || true
+          sleep 2
+          cat arranque.log
+          if grep -q "Traceback" arranque.log; then exit 1; fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Cutter-macOS-${{ matrix.label }}
+          path: dist/*.dmg
+          if-no-files-found: error
+
+  release:
+    name: Publicar en Releases
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: dmg
+          merge-multiple: true
+
+      - name: Subir .dmg y paquetes de Linux
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          VERSION=$(sed -n 's/^VERSION = "\(.*\)"/\1/p' src/cutter_linux/config.py)
+          TAG="v$VERSION"
+          if ! gh release view "$TAG" > /dev/null 2>&1; then
+            gh release create "$TAG" --target "$GITHUB_SHA" --title "Cutter $VERSION" \
+              --notes-file packaging/notas-version.md
+          fi
+          # Solo los paquetes de Linux de esta misma versión.
+          shopt -s nullglob
+          FILES=(dmg/*.dmg instalador/*"$VERSION"*)
+          gh release upload "$TAG" "${FILES[@]}" --clobber
