@@ -6,7 +6,7 @@ from pathlib import Path
 
 APP_ID = "cutter-linux"
 APP_NAME = "Cutter"
-VERSION = "0.4.0"
+VERSION = "0.5.0"
 
 IS_MAC = sys.platform == "darwin"
 

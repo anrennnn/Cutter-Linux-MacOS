@@ -8,6 +8,7 @@ from PyQt6.QtWidgets import (
 
 from . import config
 from . import settings as settings_mod
+from . import icons
 from .editor import icon
 
 MODE_LABELS = [
@@ -23,8 +24,8 @@ def mode_menu(parent, on_pick, checked: str | None = None) -> QMenu:
     menu = QMenu("Modo", parent)
     group = QActionGroup(menu)
     window_ok = config.session_type() in ("x11", "macos")
-    for key, label, icons in MODE_LABELS:
-        action = menu.addAction(icon(*icons), label, lambda k=key: on_pick(k))
+    for key, label, names in MODE_LABELS:
+        action = menu.addAction(icon(*names), label, lambda k=key: on_pick(k))
         if key == "window" and not window_ok:
             action.setEnabled(False)
             action.setText(label + " (no disponible en Wayland)")
@@ -55,7 +56,7 @@ class MainWindow(QMainWindow):
         self.timer.timeout.connect(self._tick)
 
         self.setWindowTitle("Herramienta Recortes - Cutter")
-        self.setWindowIcon(icon(config.APP_ID))
+        self.setWindowIcon(icons.app_icon())
 
         tb = QToolBar("Recortes", self)
         tb.setMovable(False)
@@ -140,8 +141,8 @@ class MainWindow(QMainWindow):
         if mode == "window" and config.session_type() not in ("x11", "macos"):
             mode = "rect"
         self.mode = mode
-        _key, label, icons = next(m for m in MODE_LABELS if m[0] == mode)
-        self.btn_mode.setIcon(icon(*icons))
+        _key, label, names = next(m for m in MODE_LABELS if m[0] == mode)
+        self.btn_mode.setIcon(icon(*names))
         self.btn_mode.setToolTip(label)
         self.btn_mode.setMenu(mode_menu(self, self._pick_mode, checked=mode))
         self.settings.default_mode = mode

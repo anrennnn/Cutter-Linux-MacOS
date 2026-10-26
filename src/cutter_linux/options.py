@@ -7,6 +7,7 @@ from PyQt6.QtWidgets import (
 
 from . import config
 from . import settings as settings_mod
+from . import icons
 from .editor import icon
 
 
@@ -15,7 +16,7 @@ class OptionsDialog(QDialog):
         super().__init__(parent)
         self.on_clear_history = on_clear_history
         self.setWindowTitle(f"Opciones de {config.APP_NAME}")
-        self.setWindowIcon(icon(config.APP_ID))
+        self.setWindowIcon(icons.app_icon())
         s = settings_mod.current
         layout = QVBoxLayout(self)
 

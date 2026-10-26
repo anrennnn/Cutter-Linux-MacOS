@@ -162,6 +162,8 @@ class Daemon:
         if self.editor is None:
             self.editor = EditorWindow(pixmap)
             self.editor.new_snip_requested.connect(lambda mode: self.snip(mode, source="editor"))
+            self.editor.options_requested.connect(self.show_options)
+            self.editor.history_requested.connect(self.popup.toggle)
         else:
             self.editor.load(pixmap, saved_path)
         self.editor.saved_path = saved_path
@@ -194,7 +196,9 @@ class Daemon:
             tray_icon = QIcon(str(resource_dir() / "cutter-menubar.svg"))
             tray_icon.setIsMask(True)
         else:
-            tray_icon = icon(config.APP_ID, "edit-cut")
+            from . import icons
+
+            tray_icon = icons.app_icon()
         self.tray = QSystemTrayIcon(tray_icon, self.app)
         self.tray.setToolTip(f"{config.APP_NAME}: {config.SNIP_KEYS} recortar · {config.HISTORY_KEYS} historial")
         menu = QMenu()
@@ -208,7 +212,7 @@ class Daemon:
                 s * 1000, lambda: self.snip(settings_mod.current.default_mode)))
         menu.addSeparator()
         menu.addAction(icon("edit-paste"), "Historial del portapapeles", self.popup.toggle)
-        menu.addAction(icon(config.APP_ID), "Abrir Cutter", self.show_main_window)
+        menu.addAction(icon("cut"), "Abrir Cutter", self.show_main_window)
         menu.addAction(icon("configure", "preferences-system"), "Opciones…", self.show_options)
         menu.addSeparator()
         menu.addAction(icon("application-exit"), "Salir", self.app.quit)
@@ -365,12 +369,7 @@ def _ensure_icon_theme():
 
     dark = QApplication.palette().window().color().lightness() < 128
     if config.IS_MAC:
-        # macOS no tiene temas de iconos: Cutter trae un subconjunto de Breeze.
-        from .macos import resource_dir
-
-        QIcon.setThemeSearchPaths([str(resource_dir() / "icons")])
-        QIcon.setThemeName("breeze-dark" if dark else "breeze")
-        return
+        return  # Cutter dibuja sus propios iconos (icons.py); macOS no tiene temas
     candidates = ["breeze-dark", "Papirus-Dark"] if dark else ["breeze", "Papirus"]
     candidates += ["Adwaita", "Yaru", "elementary", "Mint-Y"]
     installed = [

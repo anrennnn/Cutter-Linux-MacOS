@@ -39,7 +39,7 @@ comprobar("atajos mostrados con Ctrl", config.SNIP_KEYS == "Ctrl+Shift+S" and co
 _ensure_icon_theme()
 from cutter_linux.editor import Canvas, EditorWindow, Stroke, icon  # noqa: E402
 
-comprobar("iconos incluidos (Breeze)", not icon("edit-cut").isNull() and not icon("configure").isNull())
+comprobar("iconos propios de Cutter", not icon("edit-cut").isNull() and not icon("crop").isNull())
 
 hotkeys = macos.HotKeys()
 comprobar("atajo Ctrl+Shift+S registrado", hotkeys.register(1, macos.KEY_S, macos.CONTROL | macos.SHIFT))
@@ -72,6 +72,21 @@ canvas._erase_at(QPointF(100, 11))
 comprobar("el borrador quita el trazo", not canvas.strokes)
 canvas.undo()
 comprobar("deshacer recupera el trazo", len(canvas.strokes) == 1)
+
+flecha = Stroke("arrow", QColor("blue"), 4, QPointF(20, 150))
+flecha.end = QPointF(250, 150)
+canvas.strokes.append(flecha)
+canvas._push("add", flecha, 1)
+comprobar("la flecha se dibuja", QColor(canvas.render_image().pixel(120, 150)).blue() > 200)
+from PyQt6.QtCore import QRectF  # noqa: E402
+
+canvas.crop_rect = QRectF(0, 0, 150, 100)
+canvas.apply_crop()
+comprobar("recortar la imagen", (canvas.image_size().width(), canvas.image_size().height()) == (150, 100))
+canvas.undo()
+comprobar("deshacer el recorte", (canvas.image_size().width(), canvas.image_size().height()) == (300, 200))
+canvas.set_zoom(2.0)
+comprobar("zoom", canvas.width() == 600)
 
 from cutter_linux.history import HistoryStore  # noqa: E402
 from cutter_linux.history_ui import HistoryPopup  # noqa: E402

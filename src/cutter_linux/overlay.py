@@ -6,12 +6,12 @@ Herramienta Recortes: rectángulo, ventana, pantalla completa y forma libre.
 
 from PyQt6.QtCore import QPoint, QPointF, QRect, QRectF, QSize, Qt, pyqtSignal
 from PyQt6.QtGui import (
-    QBrush, QColor, QCursor, QGuiApplication, QIcon, QKeySequence, QPainter,
+    QBrush, QColor, QCursor, QGuiApplication, QKeySequence, QPainter,
     QPainterPath, QPen, QPixmap, QShortcut,
 )
 from PyQt6.QtWidgets import QButtonGroup, QFrame, QHBoxLayout, QToolButton, QWidget
 
-from . import config
+from . import config, icons
 from .windows import list_windows as list_x11_windows
 
 MODES = [
@@ -57,11 +57,11 @@ class ModeBar(QFrame):
             btn.setCheckable(True)
             btn.setToolTip(label)
             btn.setAccessibleName(label)
-            icon = QIcon.fromTheme(icon_name)
-            if icon.isNull():
+            own = icons.make(icons.ALIASES.get(icon_name, icon_name), color=QColor("white"))
+            if own.isNull():
                 btn.setText(fallback)
             else:
-                btn.setIcon(icon)
+                btn.setIcon(own)
                 btn.setIconSize(QSize(22, 22))
             if key == "window" and not window_mode_available:
                 btn.setEnabled(False)
@@ -77,7 +77,8 @@ class ModeBar(QFrame):
         layout.addWidget(sep)
 
         close = QToolButton(self)
-        close.setText("✕")
+        close.setIcon(icons.make("close", color=QColor("white")))
+        close.setIconSize(QSize(20, 20))
         close.setToolTip("Cerrar (Esc)")
         close.clicked.connect(self.cancelled.emit)
         layout.addWidget(close)

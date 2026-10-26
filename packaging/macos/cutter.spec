@@ -12,7 +12,6 @@ a = Analysis(
     [str(ROOT / "packaging/macos/cutter_main.py")],
     pathex=[str(SRC)],
     datas=[
-        (str(SRC / "cutter_linux/icons"), "cutter_linux/icons"),
         (str(SRC / "cutter_linux/cutter-linux.svg"), "cutter_linux"),
         (str(SRC / "cutter_linux/cutter-menubar.svg"), "cutter_linux"),
     ],
