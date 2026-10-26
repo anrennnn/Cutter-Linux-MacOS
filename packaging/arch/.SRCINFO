@@ -1,7 +1,7 @@
 pkgbase = cutter-linux
 	pkgdesc = Herramienta Recortes (Super+Shift+S) e historial del portapapeles (Super+V) al estilo Windows
-	pkgver = 0.4.0
-	pkgrel = 2
+	pkgver = 0.5.0
+	pkgrel = 1
 	url = https://github.com/anrennnn/Cutter-Linux-MacOS
 	install = cutter-linux.install
 	arch = any
@@ -23,7 +23,7 @@ pkgbase = cutter-linux
 	optdepends = xorg-xwininfo: modo «Recorte de ventana» (X11)
 	optdepends = grim: captura en Hyprland y Sway si el portal no responde
 	optdepends = gnome-shell-extension-appindicator: icono junto al reloj en GNOME
-	source = cutter-linux-0.4.0.tar.gz::https://github.com/anrennnn/Cutter-Linux-MacOS/archive/38101b0324fea7a200b0f2cf4353e09b911b8a85.tar.gz
-	sha256sums = 430ff85fe7b803989f7256335285a5b2d9ed555f5dcb3eb5517defd74e77b722
+	source = cutter-linux-0.5.0.tar.gz::https://github.com/anrennnn/Cutter-Linux-MacOS/archive/6f6b800edce009483bf94ba9989453f743ef3410.tar.gz
+	sha256sums = a393c506390141e2462814a52369d506d2faf9cd4aa63c3104c98ca2ca231148
 
 pkgname = cutter-linux

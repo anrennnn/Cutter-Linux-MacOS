@@ -3,11 +3,11 @@
 #
 #   rpmbuild -ba cutter-linux.spec
 
-%global commit 38101b0324fea7a200b0f2cf4353e09b911b8a85
+%global commit 6f6b800edce009483bf94ba9989453f743ef3410
 
 Name:           cutter-linux
-Version:        0.4.0
-Release:        2%{?dist}
+Version:        0.5.0
+Release:        1%{?dist}
 Summary:        Herramienta Recortes (Super+Shift+S) e historial del portapapeles (Super+V)
 License:        MIT
 URL:            https://github.com/anrennnn/Cutter-Linux-MacOS
@@ -57,6 +57,9 @@ copiados. Desde el menú o el icono junto al reloj se abre la ventana clásica
 %config(noreplace) %{_sysconfdir}/xdg/autostart/cutter-linux.desktop
 
 %changelog
+* Mon Oct 26 2026 Cutter-Linux <cutter-linux@users.noreply.github.com> - 0.5.0-1
+- Editor al estilo de Windows 11 (formas, texto, recortar, zoom) e iconos propios.
+
 * Fri Oct 23 2026 Cutter-Linux <cutter-linux@users.noreply.github.com> - 0.4.0-2
 - El repositorio pasa a llamarse Cutter-Linux-MacOS.
 

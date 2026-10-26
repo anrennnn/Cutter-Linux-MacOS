@@ -34,11 +34,11 @@ atajos y el mismo comportamiento.
 <table>
 <tr>
 <td width="50%"><img src="docs/img/ventana-principal.png" alt="Ventana principal clásica de Cutter" /></td>
-<td width="50%"><img src="docs/img/editor.png" alt="Editor con pluma y resaltador" /></td>
+<td width="50%"><img src="docs/img/editor.png" alt="Editor con formas, texto y resaltador" /></td>
 </tr>
 <tr>
 <td align="center"><b>Ventana clásica</b>: Nuevo, Modo, Aplazar, Cancelar, Opciones</td>
-<td align="center"><b>Editor</b>: pluma, resaltador, borrador, copiar y guardar</td>
+<td align="center"><b>Editor</b>: pluma, resaltador, formas, texto, recortar y zoom</td>
 </tr>
 <tr>
 <td width="50%"><img src="docs/img/historial-portapapeles.png" alt="Historial del portapapeles con Super+V" /></td>
@@ -68,8 +68,8 @@ Los instaladores están en la carpeta [`instalador/`](instalador/).
 ### Debian, Ubuntu, Linux Mint, Pop!_OS, Zorin OS
 
 ```bash
-wget https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux_0.4.0_all.deb
-sudo apt install ./cutter-linux_0.4.0_all.deb
+wget https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux_0.5.0_all.deb
+sudo apt install ./cutter-linux_0.5.0_all.deb
 ```
 
 Para desinstalarlo: `sudo apt remove cutter-linux`.
@@ -77,8 +77,8 @@ Para desinstalarlo: `sudo apt remove cutter-linux`.
 ### Arch Linux, CachyOS, EndeavourOS, Manjaro
 
 ```bash
-wget https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux-0.4.0-2-any.pkg.tar.zst
-sudo pacman -U cutter-linux-0.4.0-2-any.pkg.tar.zst
+wget https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux-0.5.0-1-any.pkg.tar.zst
+sudo pacman -U cutter-linux-0.5.0-1-any.pkg.tar.zst
 ```
 
 También puedes compilarlo tú, como los paquetes del AUR:
@@ -89,7 +89,7 @@ Para desinstalarlo: `sudo pacman -R cutter-linux`.
 ### Fedora (Workstation, KDE Plasma y los spins Cinnamon, XFCE…)
 
 ```bash
-sudo dnf install https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux-0.4.0-2.noarch.rpm
+sudo dnf install https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux-0.5.0-1.noarch.rpm
 ```
 
 `dnf` instala también PyQt6 y lo demás que haga falta. En **Fedora Workstation (GNOME)**,
@@ -117,8 +117,8 @@ Para actualizar, repite los mismos pasos. Para quitarlo: `./instalar-usuario.sh 
 **Opción B: añadir el paquete al sistema con `rpm-ostree` (queda integrado, pero hay que reiniciar).**
 
 ```bash
-curl -LO https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux-0.4.0-2.noarch.rpm
-rpm-ostree install ./cutter-linux-0.4.0-2.noarch.rpm
+curl -LO https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux-0.5.0-1.noarch.rpm
+rpm-ostree install ./cutter-linux-0.5.0-1.noarch.rpm
 systemctl reboot
 ```
 
@@ -128,8 +128,8 @@ Si eliges la opción A en Bazzite y el instalador dice que falta `xcb-util-curso
 ### macOS (Apple Silicon e Intel)
 
 1. Descarga el `.dmg` de tu Mac:
-   - **Apple Silicon (M1–M4):** [Cutter-0.4.0-macOS-AppleSilicon.dmg](https://github.com/anrennnn/Cutter-Linux-MacOS/releases/latest/download/Cutter-0.4.0-macOS-AppleSilicon.dmg)
-   - **Intel:** [Cutter-0.4.0-macOS-Intel.dmg](https://github.com/anrennnn/Cutter-Linux-MacOS/releases/latest/download/Cutter-0.4.0-macOS-Intel.dmg)
+   - **Apple Silicon (M1–M4):** [Cutter-0.5.0-macOS-AppleSilicon.dmg](https://github.com/anrennnn/Cutter-Linux-MacOS/releases/latest/download/Cutter-0.5.0-macOS-AppleSilicon.dmg)
+   - **Intel:** [Cutter-0.5.0-macOS-Intel.dmg](https://github.com/anrennnn/Cutter-Linux-MacOS/releases/latest/download/Cutter-0.5.0-macOS-Intel.dmg)
 
    ¿No sabes cuál es el tuyo? Ve a menú  → *Acerca de este Mac*. Si pone «Chip Apple M…»,
    es Apple Silicon; si pone «Procesador Intel…», es Intel.
@@ -180,8 +180,8 @@ sistema.
 
 ```bash
 cutter-linux salir
-wget https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux_0.4.0_all.deb
-sudo apt install ./cutter-linux_0.4.0_all.deb
+wget https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux_0.5.0_all.deb
+sudo apt install ./cutter-linux_0.5.0_all.deb
 cutter-linux atajos
 cutter-linux
 ```
@@ -190,8 +190,8 @@ cutter-linux
 
 ```bash
 cutter-linux salir
-wget https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux-0.4.0-2-any.pkg.tar.zst
-sudo pacman -U cutter-linux-0.4.0-2-any.pkg.tar.zst
+wget https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux-0.5.0-1-any.pkg.tar.zst
+sudo pacman -U cutter-linux-0.5.0-1-any.pkg.tar.zst
 cutter-linux atajos
 cutter-linux
 ```
@@ -200,7 +200,7 @@ cutter-linux
 
 ```bash
 cutter-linux salir
-sudo dnf install https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux-0.4.0-2.noarch.rpm
+sudo dnf install https://github.com/anrennnn/Cutter-Linux-MacOS/raw/main/instalador/cutter-linux-0.5.0-1.noarch.rpm
 cutter-linux atajos
 cutter-linux
 ```
@@ -240,7 +240,7 @@ Para terminar, reinicia.
 
 ### Comprobar que se actualizó
 
-- `cutter-linux version` debe mostrar `Cutter 0.4.0`.
+- `cutter-linux version` debe mostrar `Cutter 0.5.0`.
 - Al abrir **Cutter** desde el menú tiene que aparecer la ventana con
   **Nuevo · Modo · Aplazar · Cancelar · Opciones**.
 
@@ -265,13 +265,41 @@ Para terminar, reinicia.
 - **Opciones** abre la ventana de ajustes.
 - Usa los colores, la fuente y los iconos de tu escritorio.
 
-**Editor (se abre tras recortar desde la ventana)**
-- Pluma en rojo, azul, negro, verde o el color que elijas, con punta fina, media o gruesa.
-- Resaltador amarillo.
-- Borrador que quita trazos completos, como en Windows.
-- Deshacer (Ctrl+Z) y rehacer (Ctrl+Y).
-- Copiar (Ctrl+C), Guardar como PNG/JPEG/BMP (Ctrl+S) y Nuevo recorte (Ctrl+N).
-- Si cierras con cambios sin guardar, te pregunta antes.
+**Editor (se abre tras recortar desde la ventana o al pulsar la notificación)**
+
+Inspirado en la Herramienta Recortes de Windows 11: una sola barra arriba y el zoom abajo.
+
+| Herramienta | Qué hace |
+|---|---|
+| **＋ · Modo ▾ · Retraso ▾** | Nuevo recorte sin salir del editor, con el modo y el retraso que elijas. |
+| **Pluma ▾** | 8 colores (o cualquiera con *Más colores…*) y grosor de 1 a 20. El icono muestra el color elegido. |
+| **Resaltador ▾** | Amarillo, verde, celeste o rosa, con grosor ajustable. |
+| **Borrador** | Quita anotaciones completas, como en Windows. |
+| **Formas ▾** | Rectángulo, elipse, flecha y línea. Con <kbd>Shift</kbd> salen cuadrados, círculos y ángulos de 45°. |
+| **Texto** | Haz clic donde quieras escribir. Usa el color y el grosor de la pluma. |
+| **Recortar imagen** | Arrastra para elegir la zona y confirma con <kbd>Intro</kbd> o ✓. Se puede deshacer. |
+| **Deshacer / Rehacer** | <kbd>Ctrl+Z</kbd> / <kbd>Ctrl+Y</kbd>, también después de recortar la imagen. |
+| **Guardar · Copiar · Abrir con** | PNG/JPEG/BMP (<kbd>Ctrl+S</kbd>), al portapapeles (<kbd>Ctrl+C</kbd>) o en tu editor de imágenes predeterminado. |
+| **⋯ Más** | Mostrar en la carpeta, historial del portapapeles y opciones. |
+| **Zoom** (abajo) | <kbd>Ctrl</kbd>+rueda, <kbd>Ctrl</kbd>+<kbd>0</kbd> para ajustar a la ventana y <kbd>Ctrl</kbd>+<kbd>1</kbd> para el tamaño real. |
+
+Si cierras con cambios sin guardar, Cutter te pregunta antes.
+
+<table>
+<tr>
+<td width="50%"><img src="docs/img/editor-claro.png" alt="Editor en tema claro" /></td>
+<td width="50%"><img src="docs/img/editor-pluma.png" alt="Colores y grosor de la pluma" /></td>
+</tr>
+<tr>
+<td align="center">El editor en tema claro</td>
+<td align="center">Colores y grosor de la pluma</td>
+</tr>
+</table>
+
+**Iconos propios.** Cutter dibuja sus propios iconos, que se adaptan al tema claro u oscuro
+y se ven igual en Linux y en Mac:
+
+<img src="docs/img/iconos.png" alt="Iconos de Cutter en tema claro y oscuro" width="560" />
 
 **Recorte rápido (Super+Shift+S)**
 - Cuatro modos: rectangular, ventana, pantalla completa y forma libre, con la barra de
@@ -353,6 +381,5 @@ packaging/macos/build.sh AppleSilicon             # dist/Cutter.app y dist/Cutte
 sudo make install                                 # instalación manual en /usr
 ```
 
-Licencia MIT. La versión de macOS incluye un subconjunto de iconos
-[Breeze](https://invent.kde.org/frameworks/breeze-icons) (LGPL-3.0). No contiene código de Microsoft: replica el comportamiento de la herramienta
+Licencia MIT. No contiene código de Microsoft: replica el comportamiento de la herramienta
 de Windows a partir de su funcionamiento público.
